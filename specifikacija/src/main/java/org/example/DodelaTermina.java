@@ -42,7 +42,7 @@ public abstract class DodelaTermina {
         return imaMesta(t, brojMesta, false);
     }
     public boolean imaMesta(Termin t, int brojMesta, boolean potrebniKomp){
-        if (!t.getProstorija().isImaRacunar() && potrebniKomp) return false;
+        if (t.getProstorija().getBrojRacunara()>0 && potrebniKomp) return false;
         if (t.getProstorija().getBrojMesta()<brojMesta) return false;
         return true;
     }

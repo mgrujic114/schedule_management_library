@@ -4,12 +4,15 @@ import lombok.Getter;
 import lombok.Setter;
 
 import java.time.LocalDateTime;
+import java.util.List;
+
 @Getter
 @Setter
 public class Termin {
     private LocalDateTime pocetak;
    private LocalDateTime kraj;
    private Prostorija prostorija;
+   private List<String> vezaniPodaci;
 
     public Termin(LocalDateTime pocetak, LocalDateTime kraj, String prostorija) {
         this.pocetak = pocetak;
