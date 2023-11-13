@@ -14,6 +14,8 @@ public class Raspored {
     private List<Termin> termini;
     private Map<Termin, Boolean> popunjeniTermini;
     private List<Prostorija> prostorije;
+    private LocalDateTime startDate;
+    private LocalDateTime endDate;
     public static Raspored getInstance(){
         return InstaceHolder.instance;
     }

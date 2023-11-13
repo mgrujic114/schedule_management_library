@@ -28,21 +28,29 @@ public abstract class DodelaTermina {
     public boolean postojiPreklapanje(LocalDateTime pocetak, LocalDateTime kraj, String prostorija){
         if (termini.isEmpty()) return false;
 
-        Termin termin = new Termin(pocetak, kraj, prostorija);
-
-        if (termini.contains(termin)) return true;
+        Termin noviTermin = new Termin(pocetak, kraj, prostorija); ///novi 16.30-17.45
+                                                                    ///t 17.00-18.00
+        if (termini.contains(noviTermin)) return true;
 
         for (Termin t: termini){
-            if (t.equals(termin)) return true;
+            if (t.equals(noviTermin)) return true;
+            if (t.getProstorija().equals(noviTermin.getProstorija())) {
+                if (!(noviTermin.getPocetak().isAfter(t.getPocetak()) &&
+                        noviTermin.getPocetak().isBefore(t.getKraj()))) return false;
+                else if (!(noviTermin.getKraj().isAfter(t.getPocetak()) &&
+                        noviTermin.getKraj().isBefore(t.getKraj()))) return false;
+                else if (!(noviTermin.getPocetak().isBefore(t.getPocetak()) &&
+                        noviTermin.getKraj().isAfter(t.getKraj()))) return false;
+            }
         }
         return false;
     }
 
     public boolean imaMesta(Termin t, int brojMesta){
-        return imaMesta(t, brojMesta, false);
+        return imaMesta(t, brojMesta, 0);
     }
-    public boolean imaMesta(Termin t, int brojMesta, boolean potrebniKomp){
-        if (t.getProstorija().getBrojRacunara()>0 && potrebniKomp) return false;
+    public boolean imaMesta(Termin t, int brojMesta, int potrebnihKomp){
+        if (t.getProstorija().getBrojRacunara()<potrebnihKomp) return false;
         if (t.getProstorija().getBrojMesta()<brojMesta) return false;
         return true;
     }
