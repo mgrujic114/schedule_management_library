@@ -48,12 +48,17 @@ public abstract class RasporedHolder {
         izlistajTermine(pocetak, pocetak.plusMinutes(60*trajanje), null, p, kriterijumi);
 
     }
+    private void izlistajTermine(List<String> kriterijumiT, Prostorija p, List<String> kriterijumi){
+        izlistajTermine(null, null, kriterijumiT, p, kriterijumi);
+    }
     private void izlistajTermine(Prostorija p, List<String> kriterijumi){
         izlistajTermine(null, null, null, p, kriterijumi);
-
     }
     private void izlistajTermine(LocalDateTime pocetak, LocalDateTime kraj, List<String> kriterijumi){
         izlistajTermine(pocetak, kraj, kriterijumi, null, null);
+    }
+    private void izlistajTermine(LocalDateTime pocetak, List<String> kriterijumi, LocalDateTime kraj){
+        izlistajTermine(pocetak, kraj, null, null, kriterijumi);
     }
     private void izlistajTermine(LocalDateTime pocetak, long trajanje, List<String> kriterijumi){
         izlistajTermine(pocetak, pocetak.plusMinutes(60*trajanje), kriterijumi);

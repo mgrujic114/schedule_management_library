@@ -12,7 +12,7 @@ public class Termin {
     private LocalDateTime pocetak;
    private LocalDateTime kraj;
    private Prostorija prostorija;
-   private List<String> vezaniPodaci;
+   private List<String> vezaniPodaci; //prof, grupa, tip
 
     public Termin(LocalDateTime pocetak, LocalDateTime kraj, String prostorija) {
         this.pocetak = pocetak;
@@ -33,5 +33,10 @@ public class Termin {
         else return ((Termin) obj).prostorija.equals(this.prostorija) &&
                     ((Termin) obj).pocetak.equals(this.pocetak) &&
                     ((Termin) obj).kraj.equals(this.kraj);
+    }
+
+    @Override
+    public String toString() {
+        return "termin od: "+pocetak+"/n/tu ucionici: "+prostorija+"/ndo: "+kraj;
     }
 }

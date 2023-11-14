@@ -21,6 +21,8 @@ public class Raspored {
     private Raspored(){
         inicijalizacija();
     }
+    //kada bismo imali jos jedan projekat kako bismo ga nazvali i sta bi onda u implementacijama bio dependecy
+    // da li bi bila i specifikacija kao compile time a ovo drugo kao runtime ili je dovoljno da stavimo samo drugi projekat
     public static Raspored getInstance(){
         return InstaceHolder.instance;
     }
