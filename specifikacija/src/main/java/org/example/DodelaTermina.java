@@ -1,10 +1,14 @@
 package org.example;
 
-import java.time.LocalDateTime;
-import java.util.List;
+import lombok.Getter;
+import lombok.Setter;
 
-public abstract class DodelaTermina {
-    private List<Termin> termini;
+import java.time.LocalDateTime;
+
+@Setter
+@Getter
+public class DodelaTermina {
+    private Raspored raspored;
 
     /**
      * Funkcija vraca vrednost true u slucaju da prostoji preklapanje, tj da je izabrani termin zauzet,
@@ -26,13 +30,13 @@ public abstract class DodelaTermina {
      * @return true/false
      */
     public boolean postojiPreklapanje(LocalDateTime pocetak, LocalDateTime kraj, String prostorija){
-        if (termini.isEmpty()) return false;
+        if (raspored.getTermini().isEmpty()) return false;
 
         Termin noviTermin = new Termin(pocetak, kraj, prostorija); ///novi 16.30-17.45
                                                                     ///t 17.00-18.00
-        if (termini.contains(noviTermin)) return true;
+        if (raspored.getTermini().contains(noviTermin)) return true;
 
-        for (Termin t: termini){
+        for (Termin t: raspored.getTermini()){
             if (t.equals(noviTermin)) return true;
             if (t.getProstorija().equals(noviTermin.getProstorija())) {
                 if (!(noviTermin.getPocetak().isAfter(t.getPocetak()) &&

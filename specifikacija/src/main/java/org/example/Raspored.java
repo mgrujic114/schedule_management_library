@@ -16,12 +16,18 @@ public class Raspored {
     private List<Prostorija> prostorije;
     private LocalDateTime startDate;
     private LocalDateTime endDate;
+    private DodelaTermina dodelaTermina;
+    private ImportExport importExport;
+    private Raspored(){
+        inicijalizacija();
+    }
     public static Raspored getInstance(){
         return InstaceHolder.instance;
     }
 
     private void inicijalizacija(){
-
+        dodelaTermina = new DodelaTermina();
+        dodelaTermina.setRaspored(this);
     }
 
     private static class InstaceHolder{

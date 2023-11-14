@@ -1,7 +1,5 @@
 package org.example;
 
-import jdk.vm.ci.meta.Local;
-
 import java.time.LocalDateTime;
 import java.util.List;
 
@@ -69,9 +67,7 @@ public abstract class RasporedHolder {
     }
 
 
-    private void izlistajTermine(LocalDateTime pocetak, LocalDateTime kraj, List<String> kriterijumiT, Prostorija p, List<String> kriterijumiP){
-
-    }
+    public abstract void izlistajTermine(LocalDateTime pocetak, LocalDateTime kraj, List<String> kriterijumiT, Prostorija p, List<String> kriterijumiP);
     private void izlistajTermine(LocalDateTime pocetak, long trajanje, List<String> kriterijumiT, Prostorija p, List<String> kriterijumiP){
         izlistajTermine(pocetak, pocetak.plusMinutes(trajanje*60), kriterijumiT, p, kriterijumiP);
 
@@ -79,7 +75,7 @@ public abstract class RasporedHolder {
     private void izlistajTermine(String dan){
         izlistajTermine(dan, null, null, null, null);
     }
-    private void izlistajTermine(String dan, LocalDateTime startDate, LocalDateTime endDate, String satnicaPocetka, String satnicaKraja){}
+    public abstract void izlistajTermine(String dan, LocalDateTime startDate, LocalDateTime endDate, String satnicaPocetka, String satnicaKraja);
 
 
 }
