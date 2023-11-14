@@ -6,6 +6,56 @@ import java.util.List;
 public abstract class RasporedHolder {
     Raspored raspored = Raspored.getInstance();
 
+    public abstract void inicijalizacija();
+
+    /***
+     * Funkcija dodaje termin u raspored
+     * @param t
+     */
+    public void dodajTerminURaspored(Termin t){
+        if (raspored.getTermini().contains(t)){
+            System.out.println("termin vec postoji");
+            return;
+        }
+        if (postojiPreklapanje(t.getPocetak(), t.getKraj(), t.getProstorija().getNaziv())) {
+            System.out.println("termin je zauzet");
+            return;
+        }
+        raspored.getTermini().add(t);
+        raspored.getPopunjeniTermini().put(t, true);
+    }
+
+    /***
+     * Funkcija brise termin iz rasporeda
+     * @param t
+     */
+    public void obrisiTerminIzRasporeda(Termin t){
+        if (raspored.getTermini().isEmpty() || !raspored.getTermini().contains(t)) return;
+        raspored.getTermini().remove(t);
+        raspored.getPopunjeniTermini().put(t, false);
+    }
+
+    /***
+     * Funkcija zadati termin najpre brise iz liste termina
+     * menja mu vreme
+     * a zatim ga dodaje, ako je to moguce
+     * @param t
+     * @param noviPocetak
+     * @param noviKraj
+     */
+    public void premestiTermin(Termin t, LocalDateTime noviPocetak, LocalDateTime noviKraj){
+        obrisiTerminIzRasporeda(t);
+        t.setPocetak(noviPocetak);
+        t.setKraj(noviKraj);
+        dodajTerminURaspored(t);
+    }
+
+    /***
+     * Funkcija dodaje prostoriju sa prosledjenim osobinama u listu prostorija
+     * @param prostorija
+     * @param osobina
+     * @param o
+     */
     public void dodajProstorijuSaOsobinom(String prostorija, Osobine osobina, Object o){
         Prostorija nova = new Prostorija(prostorija);
         nova.dodajOsobinu(osobina, o);
@@ -19,26 +69,14 @@ public abstract class RasporedHolder {
             }
         }
     }
-    private void dodajProstorijuSaOsobinom(String prostorija, Osobine osobina){
+
+    /***
+     * Funkcija dodaje zadatu prostoriju sa prosledjenim osobinama u listu prostorija
+     * @param prostorija
+     * @param osobina
+     */
+    public void dodajProstorijuSaOsobinom(String prostorija, Osobine osobina){
         dodajProstorijuSaOsobinom(prostorija, osobina, null);
-    }
-
-
-    private void obrisiTerminIzRasporeda(Termin t){
-        if (raspored.getTermini().isEmpty() || !raspored.getTermini().contains(t)) return;
-        raspored.getTermini().remove(t);
-        raspored.getPopunjeniTermini().put(t, false);
-    }
-    private void dodajTerminURasporeda(Termin t){
-        if (raspored.getTermini().isEmpty() || raspored.getTermini().contains(t)) return;
-        raspored.getTermini().add(t);
-        raspored.getPopunjeniTermini().put(t, true);
-    }
-    private void premestiTermin(Termin t, LocalDateTime noviPocetak, LocalDateTime noviKraj){
-        obrisiTerminIzRasporeda(t);
-        t.setPocetak(noviPocetak);
-        t.setKraj(noviKraj);
-        dodajTerminURasporeda(t);
     }
 
     /**
@@ -81,52 +119,52 @@ public abstract class RasporedHolder {
         return false;
     }
 
-    public boolean imaMesta(Termin t, int brojMesta){
-        return imaMesta(t, brojMesta, 0);
-    }
-    public boolean imaMesta(Termin t, int brojMesta, int potrebnihKomp){
-        if (t.getProstorija().getBrojRacunara()<potrebnihKomp) return false;
-        if (t.getProstorija().getBrojMesta()<brojMesta) return false;
-        return true;
-    }
-    private void izlistajTermine(LocalDateTime pocetak, LocalDateTime kraj,Prostorija p, List<String> kriterijumi){
+//    public boolean imaMesta(Termin t, int brojMesta){
+//        return imaMesta(t, brojMesta, 0);
+//    }
+//    public boolean imaMesta(Termin t, int brojMesta, int potrebnihKomp){
+//        if (t.getProstorija().getBrojRacunara()<potrebnihKomp) return false;
+//        if (t.getProstorija().getBrojMesta()<brojMesta) return false;
+//        return true;
+//    }
+    public void izlistajTermine(LocalDateTime pocetak, LocalDateTime kraj,Prostorija p, List<String> kriterijumi){
         izlistajTermine(pocetak, kraj, null, p, kriterijumi);
 
     }
-    private void izlistajTermine(LocalDateTime pocetak, long trajanje, Prostorija p, List<String> kriterijumi){
+    public void izlistajTermine(LocalDateTime pocetak, long trajanje, Prostorija p, List<String> kriterijumi){
         izlistajTermine(pocetak, pocetak.plusMinutes(60*trajanje), null, p, kriterijumi);
 
     }
-    private void izlistajTermine(List<String> kriterijumiT, Prostorija p, List<String> kriterijumi){
+    public void izlistajTermine(List<String> kriterijumiT, Prostorija p, List<String> kriterijumi){
         izlistajTermine(null, null, kriterijumiT, p, kriterijumi);
     }
-    private void izlistajTermine(Prostorija p, List<String> kriterijumi){
+    public void izlistajTermine(Prostorija p, List<String> kriterijumi){
         izlistajTermine(null, null, null, p, kriterijumi);
     }
-    private void izlistajTermine(LocalDateTime pocetak, LocalDateTime kraj, List<String> kriterijumi){
+    public void izlistajTermine(LocalDateTime pocetak, LocalDateTime kraj, List<String> kriterijumi){
         izlistajTermine(pocetak, kraj, kriterijumi, null, null);
     }
-    private void izlistajTermine(LocalDateTime pocetak, List<String> kriterijumi, LocalDateTime kraj){
+    public void izlistajTermine(LocalDateTime pocetak, List<String> kriterijumi, LocalDateTime kraj){
         izlistajTermine(pocetak, kraj, null, null, kriterijumi);
     }
-    private void izlistajTermine(LocalDateTime pocetak, long trajanje, List<String> kriterijumi){
-        izlistajTermine(pocetak, pocetak.plusMinutes(60*trajanje), kriterijumi);
+    public void izlistajTermine(LocalDateTime pocetak, long trajanje, List<String> kriterijumi){
+        izlistajTermine(pocetak, pocetak.plusMinutes(60*trajanje), kriterijumi, null, null);
     }
 
-    private void izlistajTermine(LocalDateTime pocetak, LocalDateTime kraj){
+    public void izlistajTermine(LocalDateTime pocetak, LocalDateTime kraj){
         izlistajTermine(pocetak, kraj, null, null, null);
     }
-    private void izlistajTermine(LocalDateTime pocetak, long trajanje){
-        izlistajTermine(pocetak, pocetak.plusMinutes(60*trajanje));
+    public void izlistajTermine(LocalDateTime pocetak, long trajanje){
+        izlistajTermine(pocetak, pocetak.plusMinutes(60*trajanje), null, null, null);
     }
 
 
     public abstract void izlistajTermine(LocalDateTime pocetak, LocalDateTime kraj, List<String> kriterijumiT, Prostorija p, List<String> kriterijumiP);
-    private void izlistajTermine(LocalDateTime pocetak, long trajanje, List<String> kriterijumiT, Prostorija p, List<String> kriterijumiP){
+    public void izlistajTermine(LocalDateTime pocetak, long trajanje, List<String> kriterijumiT, Prostorija p, List<String> kriterijumiP){
         izlistajTermine(pocetak, pocetak.plusMinutes(trajanje*60), kriterijumiT, p, kriterijumiP);
 
     }
-    private void izlistajTermine(String dan){
+    public void izlistajTermine(String dan){
         izlistajTermine(dan, null, null, null, null);
     }
     public abstract void izlistajTermine(String dan, LocalDateTime startDate, LocalDateTime endDate, String satnicaPocetka, String satnicaKraja);

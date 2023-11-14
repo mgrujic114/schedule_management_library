@@ -10,9 +10,9 @@ import java.util.List;
 @Setter
 public class Termin {
     private LocalDateTime pocetak;
-   private LocalDateTime kraj;
-   private Prostorija prostorija;
-   private List<String> vezaniPodaci; //prof, grupa, tip
+    private LocalDateTime kraj;
+    private Prostorija prostorija;
+    private List<String> vezaniPodaci; //prof, grupa, tip
 
     public Termin(LocalDateTime pocetak, LocalDateTime kraj, String prostorija) {
         this.pocetak = pocetak;

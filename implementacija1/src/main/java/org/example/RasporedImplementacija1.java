@@ -6,6 +6,15 @@ import java.util.List;
 
 public class RasporedImplementacija1 extends RasporedHolder{
     @Override
+    public void inicijalizacija() {
+        //ucitavanje odnekle valjda?
+        /*
+        * Termin t = new Termin1(pocetak, kraj, prostorija, dan);
+        * dodajTerminURaspored(t);
+        * */
+    }
+
+    @Override
     public void izlistajTermine(LocalDateTime pocetak, LocalDateTime kraj, List<String> kriterijumiT, Prostorija p, List<String> kriterijumiP) {
         izabraniTermini.clear();
         if (pocetak == null && kraj == null) {
