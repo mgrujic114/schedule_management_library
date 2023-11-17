@@ -47,7 +47,9 @@ public class ImportExportCSV1 extends ImportExport{
                 String columnName = entry.getCustom();
                 switch (mappings.get(columnIndex)) {
                     case "place":
-                        t.setProstorija(new Prostorija(record.get(columnIndex)));
+                        Prostorija p  = new Prostorija(record.get(columnIndex));
+                        raspored.getProstorije().add(p);
+                        t.setProstorija(p);
                         break;
                     case "start":
                         LocalDateTime startDateTime = LocalDateTime.parse(record.get(columnIndex), formatter);

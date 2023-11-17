@@ -29,6 +29,11 @@ public class Raspored {
         return termini;
     }
 
+    public List<Prostorija> getProstorije() {
+        if (prostorije == null) prostorije = new ArrayList<>();
+        return prostorije;
+    }
+
     private static class InstaceHolder{
         private static Raspored instance = new Raspored();
     }

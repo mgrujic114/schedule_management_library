@@ -4,6 +4,7 @@ public class ImportExportPDF1 extends ImportExport{
 
     @Override
     public boolean importAction(String fileName, String configPath) {
+        //nema
         return false;
     }
 
