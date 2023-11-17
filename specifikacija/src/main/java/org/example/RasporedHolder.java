@@ -7,6 +7,7 @@ public abstract class RasporedHolder {
     Raspored raspored = Raspored.getInstance();
 
     public abstract void inicijalizacija();
+    public abstract void download();
 
     /***
      * Funkcija dodaje termin u raspored
