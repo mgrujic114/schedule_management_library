@@ -119,14 +119,21 @@ public abstract class RasporedHolder {
         return false;
     }
 
-//    public boolean imaMesta(Termin t, int brojMesta){
-//        return imaMesta(t, brojMesta, 0);
-//    }
-//    public boolean imaMesta(Termin t, int brojMesta, int potrebnihKomp){
-//        if (t.getProstorija().getBrojRacunara()<potrebnihKomp) return false;
-//        if (t.getProstorija().getBrojMesta()<brojMesta) return false;
-//        return true;
-//    }
+    public boolean imaMesta(Termin t, int brojMesta){
+        return imaMestaiKomp(t, brojMesta, 0, false);
+    }
+    public boolean imaProjektor(Termin t, boolean ima){
+        return imaMestaiKomp(t, 0, 0,true);
+    }
+    public boolean imaKomp(Termin t, int brojKomp){
+        return imaMestaiKomp(t, 0, brojKomp, false);
+    }
+    public boolean imaMestaiKomp(Termin t, int brojMesta, int potrebnihKomp, boolean imaProjektor){
+        if (potrebnihKomp>0 && t.getProstorija().getBrojRacunara()<potrebnihKomp) return false;
+        if (brojMesta>0 && t.getProstorija().getBrojMesta()<brojMesta) return false;
+        if (imaProjektor && t.getProstorija().isImaProjektor()) return false;
+        return true;
+    }
     public void izlistajTermine(LocalDateTime pocetak, LocalDateTime kraj,Prostorija p, List<String> kriterijumi){
         izlistajTermine(pocetak, kraj, null, p, kriterijumi);
 
