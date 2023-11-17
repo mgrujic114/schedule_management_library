@@ -14,6 +14,9 @@ public class Termin {
     private Prostorija prostorija;
     private List<String> vezaniPodaci; //prof, grupa, tip
 
+    public Termin() {
+    }
+
     public Termin(LocalDateTime pocetak, LocalDateTime kraj, String prostorija) {
         this.pocetak = pocetak;
         this.kraj = kraj;

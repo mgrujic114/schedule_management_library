@@ -1,6 +1,7 @@
 package org.example;
 
 public abstract class ImportExport {
-    public abstract boolean importAction(String fileName);
-    public abstract boolean exportAction(String path, String fileName);
+    public Raspored raspored = Raspored.getInstance();
+    public abstract boolean importAction(String fileName, String configPath);
+    public abstract boolean exportAction(String path);
 }
