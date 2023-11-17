@@ -1,19 +1,18 @@
 package org.example;
 
-import java.io.IOException;
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
-public class RasporedImplementacija1 extends RasporedHolder{
+public class RasporedImplementacija extends RasporedHolder{
     @Override
     public void inicijalizacija() {
         Scanner sc = new Scanner(System.in);
-        System.out.println("Izaberite tip fajla iz kojeg se vrsi ucitavanje: CSV, PDF, JSON");
+        System.out.println("Izaberite tip fajla iz kojeg se vrsi ucitavanje: CSV, JSON");
         String izbor  = sc.nextLine();
-        if (izbor.toUpperCase().equals("CSV")) raspored.setImportExport(new ImportExportCSV1());
+        if (izbor.equalsIgnoreCase("CSV")) raspored.setImportExport(new ImportExportCSV2());
+        else if (izbor.equalsIgnoreCase("JSON")) raspored.setImportExport(new ImportExportJSON2());
         System.out.println("Unesite putanju do fajla i konfiguracionog fajla u obliku: putanjaDoFajla,putanjaDoKonfiguracije");
         izbor = sc.nextLine();
 
@@ -23,23 +22,32 @@ public class RasporedImplementacija1 extends RasporedHolder{
 
     @Override
     public void download() {
+        Scanner sc = new Scanner(System.in);
+        System.out.println("Izaberite tip fajla u koji zelite da sacuvate: CSV, PDF");
+        String izbor  = sc.nextLine();
 
+        if (izbor.equalsIgnoreCase("CSV")) raspored.setImportExport(new ImportExportCSV2());
+        else if (izbor.equalsIgnoreCase("JSON")) raspored.setImportExport(new ImportExportPDF2());
+        System.out.println("Unesite putanju do fajla: ");
+        izbor = sc.nextLine();
+
+        raspored.getImportExport().exportAction(izbor.split(",")[0]);
     }
 
+
     @Override
-    public void izlistajTermine(LocalDateTime pocetak, LocalDateTime kraj, List<String> kriterijumiT, Prostorija p, List<String> kriterijumiP) {
+    public void izlistajTermine(LocalDateTime startDate, LocalDateTime endDate, List<String> kriterijumiT, Prostorija p, List<String> kriterijumiP) {
         izabraniTermini.clear();
-        if (pocetak == null && kraj == null) {
-            if (p != null) bezZadatogVremena(p, kriterijumiP);
+        if (startDate == null && endDate == null) {
+            if (p != null) bezZadatogDatuma(p, kriterijumiP);
             else if (kriterijumiT != null) bezZadatog(kriterijumiP, kriterijumiT);
-            else bezZadatogVremena(kriterijumiP);
+            else bezZadatogDatuma(kriterijumiP);
         }
-        else if (p == null && (pocetak != null && kraj != null ) ){
-            if (kriterijumiP == null) bezZadateProstorije(pocetak, kraj, kriterijumiT);
-            else bezZadateProstorije(pocetak, kraj, kriterijumiT, kriterijumiP);
+        else if (p == null && (startDate != null && endDate != null ) ){
+            if (kriterijumiP == null) bezZadateProstorije(startDate, endDate, kriterijumiT);
+            else bezZadateProstorije(startDate, endDate, kriterijumiT, kriterijumiP);
         }
-        else saObaKriterijuma(pocetak, kraj, kriterijumiT, p, kriterijumiP);
-        System.out.println(izabraniTermini);
+        else saObaKriterijuma(startDate, endDate, kriterijumiT, p, kriterijumiP);
     }
 
 
@@ -52,36 +60,32 @@ public class RasporedImplementacija1 extends RasporedHolder{
     private void bezZadatog(List<String> kriterijumiP, List<String> kriterijumiT) {
         if (praznaLista(kriterijumiP)) bezZadateProstorije(kriterijumiT);
         else {
-            //po kriterijumima za prostoriju i za termin
-            // 10 racunara + prof redzic
             for (Termin termin: raspored.getTermini()){
                 boolean ima = true;
-                for (String krit: kriterijumiP){
-                    if (krit.contains("racunar") && !imaKomp(termin,  1)) ima = false;
-                    else if (krit.contains("mesta") && !imaMesta(termin, 30)) ima = false;
-                    else if (krit.contains("projektor") && !imaProjektor(termin, true)) ima = false;
-                    else if (!termin.getProstorija().getOstaleOsobine().contains(krit)) ima = false;
-                }
-                for (String krit: kriterijumiT){
-                    if (!termin.getProstorija().getOstaleOsobine().contains(krit)) ima = false;
-                }
-                if (ima) izabraniTermini.add(termin);
+            for (String krit: kriterijumiP){
+                if (krit.contains("racunar") && !imaKomp(termin,  1)) ima = false;
+                else if (krit.contains("mesta") && !imaMesta(termin, 30)) ima = false;
+                else if (krit.contains("projektor") && !imaProjektor(termin, true)) ima = false;
+                else if (!termin.getProstorija().getOstaleOsobine().contains(krit)) ima = false;
             }
-
+            for (String krit: kriterijumiT){
+                if (!termin.getProstorija().getOstaleOsobine().contains(krit)) ima = false;
+            }
+            if (ima) izabraniTermini.add(termin);
+            }
         }
     }
-    private void saObaKriterijuma(LocalDateTime pocetak, LocalDateTime kraj, List<String> kriterijumiT, Prostorija p, List<String> kriterijumiP){
+    private void saObaKriterijuma(LocalDateTime startDate, LocalDateTime endDate, List<String> kriterijumiT, Prostorija p, List<String> kriterijumiP){
         if (praznaLista(kriterijumiT) && praznaLista(kriterijumiP)) {
             bezProstorijaKriterijuma(p);
-            bezTerminKriterijuma(pocetak, kraj);
+            bezTerminKriterijuma(startDate, endDate);
         }
-        else if (praznaLista(kriterijumiT)) bezTerminKriterijuma(pocetak, kraj);
+        else if (praznaLista(kriterijumiT)) bezTerminKriterijuma(startDate,endDate);
         else if (praznaLista(kriterijumiP)) bezProstorijaKriterijuma(p);
+        System.out.println(izabraniTermini);
     }
 
     private void bezZadateProstorije(List<String> kriterijumi) {
-        //samo termin kriterijumi
-        //vezbe
         for (Termin termin: raspored.getTermini()){
             boolean ima = true;
             for (String krit: kriterijumi){
@@ -90,28 +94,25 @@ public class RasporedImplementacija1 extends RasporedHolder{
             if (ima) izabraniTermini.add(termin);
         }
     }
-    private void bezZadateProstorije(LocalDateTime pocetak, LocalDateTime kraj, List<String> kriterijumi) {
-        if (praznaLista(kriterijumi)) bezTerminKriterijuma(pocetak, kraj);
+    private void bezZadateProstorije(LocalDateTime startDate, LocalDateTime endDate, List<String> kriterijumi) {
+        if (praznaLista(kriterijumi)) bezTerminKriterijuma(startDate,endDate);
         else {
-            //pretraga po terminu i uslovu termina
-            //datum+vezbe
             for (Termin termin: raspored.getTermini()){
                 boolean ima = true;
-                if (!termin.getPocetak().equals(pocetak) || !termin.getKraj().equals(kraj)) continue;
+                if (!termin.getPocetak().equals(startDate) || !termin.getKraj().equals(endDate)) continue;
                 for (String krit: kriterijumi){
                     if (!termin.getVezaniPodaci().contains(krit)) ima = false;
                 }
                 if (ima) izabraniTermini.add(termin);
             }
         }
+
     }
-    private void bezZadateProstorije(LocalDateTime pocetak, LocalDateTime kraj, List<String> kriterijumiT, List<String> kriterijumiP) {
+    private void bezZadateProstorije(LocalDateTime startDate, LocalDateTime endDate, List<String> kriterijumiT, List<String> kriterijumiP) {
         if (praznaLista(kriterijumiT)){
-            //pretrazivanje po terminu i uslovima prostorije
-            //datum+30mesta
             for (Termin termin: raspored.getTermini()){
                 boolean ima = true;
-                if (!termin.getPocetak().equals(pocetak) || !termin.getKraj().equals(kraj)) continue;
+                if (!termin.getPocetak().equals(startDate) || !termin.getKraj().equals(endDate)) continue;
                 for (String krit: kriterijumiP){
                     if (krit.contains("racunar") && !imaKomp(termin,  1)) ima = false;
                     else if (krit.contains("mesta") && !imaMesta(termin, 30)) ima = false;
@@ -120,14 +121,11 @@ public class RasporedImplementacija1 extends RasporedHolder{
                 }
                 if (ima) izabraniTermini.add(termin);
             }
-
         }
         else {
-            //pretrazivanje po terminu, uslovima termina i uslovima prostorije
-            //datum+grupa+projektor
             for (Termin termin: raspored.getTermini()){
                 boolean ima = true;
-                if (!termin.getPocetak().equals(pocetak) || !termin.getKraj().equals(kraj)) continue;
+                if (!termin.getPocetak().equals(startDate) || !termin.getKraj().equals(endDate)) continue;
                 for (String krit: kriterijumiP){
                     if (krit.contains("racunar") && !imaKomp(termin,  1)) ima = false;
                     else if (krit.contains("mesta") && !imaMesta(termin, 30)) ima = false;
@@ -142,11 +140,9 @@ public class RasporedImplementacija1 extends RasporedHolder{
         }
     }
 
-    private void bezZadatogVremena(Prostorija p, List<String> kriterijumi) {
+    private void bezZadatogDatuma(Prostorija p, List<String> kriterijumi) {
         if (praznaLista(kriterijumi)) bezProstorijaKriterijuma(p);
         else{
-            //pretrazivanje po prostoriji i kriterijumu
-            //raf6+30mesta
             for (Termin termin: raspored.getTermini()){
                 boolean ima = true;
                 if (!termin.getProstorija().equals(p)) continue;
@@ -158,12 +154,9 @@ public class RasporedImplementacija1 extends RasporedHolder{
                 }
                 if (ima) izabraniTermini.add(termin);
             }
-
         }
     }
-    private void bezZadatogVremena(List<String> kriterijumi){
-        //samo po uslovima prostorije
-        //ima graficku tablu
+    private void bezZadatogDatuma(List<String> kriterijumi){
         for (Termin termin: raspored.getTermini()){
             boolean ima = true;
             for (String krit: kriterijumi){
@@ -176,18 +169,15 @@ public class RasporedImplementacija1 extends RasporedHolder{
         }
     }
     private void bezProstorijaKriterijuma(Prostorija p) {
-        //pretrazivanje po prostoriji
-        //raf6
         for (Termin termin: raspored.getTermini()){
             if (!termin.getProstorija().equals(p)) continue;
             izabraniTermini.add(termin);
         }
     }
 
-    private void bezTerminKriterijuma(LocalDateTime pocetak, LocalDateTime kraj) {
-        //pretrazivanje po vremenu
+    private void bezTerminKriterijuma(LocalDateTime startDate, LocalDateTime endDate) {
         for (Termin termin: raspored.getTermini()){
-            if (!termin.getPocetak().equals(pocetak) || !termin.getKraj().equals(kraj)) continue;
+            if (!termin.getPocetak().equals(startDate) || !termin.getKraj().equals(endDate)) continue;
             izabraniTermini.add(termin);
         }
     }
@@ -199,3 +189,4 @@ public class RasporedImplementacija1 extends RasporedHolder{
 
 
 }
+
