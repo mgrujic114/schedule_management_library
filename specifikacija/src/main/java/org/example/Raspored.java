@@ -4,6 +4,7 @@ import lombok.Getter;
 import lombok.Setter;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -21,6 +22,11 @@ public class Raspored {
     }
    public static Raspored getInstance(){
         return InstaceHolder.instance;
+    }
+
+    public List<Termin> getTermini() {
+        if (termini == null) termini = new ArrayList<>();
+        return termini;
     }
 
     private static class InstaceHolder{

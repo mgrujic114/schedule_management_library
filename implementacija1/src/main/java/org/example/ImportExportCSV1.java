@@ -6,7 +6,7 @@ import org.apache.commons.csv.CSVPrinter;
 import org.apache.commons.csv.CSVRecord;
 
 import java.io.*;
-import java.time.DayOfWeek;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.*;
@@ -45,7 +45,6 @@ public class ImportExportCSV1 extends ImportExport{
                 if(columnIndex == -1) continue;
 
                 String columnName = entry.getCustom();
-
                 switch (mappings.get(columnIndex)) {
                     case "place":
                         t.setProstorija(new Prostorija(record.get(columnIndex)));
@@ -59,14 +58,15 @@ public class ImportExportCSV1 extends ImportExport{
                         t.setKraj(endDateTime);
                         break;
                     case "day":
-                        DayOfWeek dayOfWeek = DayOfWeek.valueOf(record.get(columnIndex));
-                        t.setDan(dayOfWeek);
+                        LocalDate datum = LocalDate.parse(record.get(columnIndex));
+                        t.setDan(datum);
                         break;
                     case "additional1":
                         t.getVezaniPodaci().add(record.get(columnIndex));
                         break;
                     case "additional2":
-                        t.getProstorija().dodajOsobinu(Osobine.valueOf(columnName), record.get(columnIndex));
+                        t.getVezaniPodaci().add(columnName);
+                                //getProstorija().dodajOsobinu(Osobine.valueOf(columnName), record.get(columnIndex));
                         break;
                 }
             }
@@ -76,6 +76,7 @@ public class ImportExportCSV1 extends ImportExport{
     }
 
     private List<ConfigMapping> readConfig(String configPath) throws FileNotFoundException {
+        System.out.println("read config "+configPath);
         List<ConfigMapping> mappings = new ArrayList<>();
 
         File file = new File(configPath);

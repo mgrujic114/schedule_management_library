@@ -24,6 +24,9 @@ public class Prostorija {
             case BROJ_RACUNARA:
                 this.brojRacunara = (Integer) o;
                 break;
+            case RACUNAR:
+                this.brojRacunara = 0;
+                break;
             case KAPACITET:
                 this.brojMesta = (Integer) o;
                 break;
@@ -47,5 +50,10 @@ public class Prostorija {
         if (obj==null || !(obj instanceof Prostorija)) return false;
 
         else return ((Prostorija) obj).naziv.equals(this.naziv);
+    }
+
+    @Override
+    public String toString() {
+        return naziv;
     }
 }

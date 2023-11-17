@@ -4,6 +4,7 @@ import lombok.Getter;
 import lombok.Setter;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 
 @Getter
@@ -38,8 +39,13 @@ public class Termin {
                     ((Termin) obj).kraj.equals(this.kraj);
     }
 
+    public List<String> getVezaniPodaci() {
+        if (vezaniPodaci == null) vezaniPodaci = new ArrayList<>();
+        return vezaniPodaci;
+    }
+
     @Override
     public String toString() {
-        return "termin od: "+pocetak+"/n/tu ucionici: "+prostorija+"/ndo: "+kraj;
+        return "termin od: "+pocetak.getHour()+":"+pocetak.getMinute()+"\n\t"+"u ucionici: "+prostorija+"\n"+"do: "+kraj.getHour()+":"+kraj.getMinute();
     }
 }
