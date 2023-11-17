@@ -11,11 +11,16 @@ public class RasporedImplementacija2 extends RasporedHolder{
         Scanner sc = new Scanner(System.in);
         System.out.println("Izaberite tip fajla iz kojeg se vrsi ucitavanje: CSV ili JSON");
         String izbor  = sc.nextLine();
-        if (izbor.equalsIgnoreCase("CSV")) raspored.setImportExport(new ImportExportCSV1());
+        if (izbor.equalsIgnoreCase("CSV")) raspored.setImportExport(new ImportExportCSV2());
         System.out.println("Unesite putanju do fajla i konfiguracionog fajla u obliku: putanjaDoFajla,putanjaDoKonfiguracije");
         izbor = sc.nextLine();
 
         raspored.getImportExport().importAction(izbor.split(",")[0], izbor.split(",")[1]);
+
+    }
+
+    @Override
+    public void download() {
 
     }
 

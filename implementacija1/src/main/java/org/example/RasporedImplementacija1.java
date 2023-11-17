@@ -1,6 +1,7 @@
 package org.example;
 
 import java.io.IOException;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
@@ -17,6 +18,11 @@ public class RasporedImplementacija1 extends RasporedHolder{
         izbor = sc.nextLine();
 
         raspored.getImportExport().importAction(izbor.split(",")[0], izbor.split(",")[1]);
+
+    }
+
+    @Override
+    public void download() {
 
     }
 
