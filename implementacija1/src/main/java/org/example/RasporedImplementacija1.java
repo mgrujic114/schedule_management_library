@@ -1,17 +1,23 @@
 package org.example;
 
+import java.io.IOException;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Scanner;
 
 public class RasporedImplementacija1 extends RasporedHolder{
     @Override
     public void inicijalizacija() {
-        //ucitavanje odnekle valjda?
-        /*
-        * Termin t = new Termin1(pocetak, kraj, prostorija, dan);
-        * dodajTerminURaspored(t);
-        * */
+        Scanner sc = new Scanner(System.in);
+        System.out.println("Izaberite tip fajla iz kojeg se vrsi ucitavanje: CSV, PDF, JSON");
+        String izbor  = sc.nextLine();
+        if (izbor.toUpperCase().equals("CSV")) raspored.setImportExport(new ImportExportCSV1());
+        System.out.println("Unesite putanju do fajla i konfiguracionog fajla u obliku: putanjaDoFajla,putanjaDoKonfiguracije");
+        izbor = sc.nextLine();
+
+        raspored.getImportExport().importAction(izbor.split(",")[0], izbor.split(",")[1]);
+
     }
 
     @Override
