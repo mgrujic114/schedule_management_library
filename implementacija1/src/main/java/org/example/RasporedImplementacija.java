@@ -11,7 +11,8 @@ public class RasporedImplementacija extends RasporedHolder{
         Scanner sc = new Scanner(System.in);
         System.out.println("Izaberite tip fajla iz kojeg se vrsi ucitavanje: CSV, PDF, JSON");
         String izbor  = sc.nextLine();
-        if (izbor.toUpperCase().equals("CSV")) raspored.setImportExport(new ImportExportCSV1());
+        if (izbor.equalsIgnoreCase("CSV")) raspored.setImportExport(new ImportExportCSV1());
+        else if (izbor.equalsIgnoreCase("JSON")) raspored.setImportExport(new ImportExportJSON1());
         System.out.println("Unesite putanju do fajla i konfiguracionog fajla u obliku: putanjaDoFajla,putanjaDoKonfiguracije");
         izbor = sc.nextLine();
 
@@ -21,7 +22,16 @@ public class RasporedImplementacija extends RasporedHolder{
 
     @Override
     public void download() {
+        Scanner sc = new Scanner(System.in);
+        System.out.println("Izaberite tip fajla u koji zelite da sacuvate: CSV, PDF");
+        String izbor  = sc.nextLine();
 
+        if (izbor.equalsIgnoreCase("CSV")) raspored.setImportExport(new ImportExportCSV1());
+        else if (izbor.equalsIgnoreCase("JSON")) raspored.setImportExport(new ImportExportPDF1());
+        System.out.println("Unesite putanju do fajla: ");
+        izbor = sc.nextLine();
+
+        raspored.getImportExport().exportAction(izbor.split(",")[0]);
     }
 
     @Override

@@ -9,9 +9,10 @@ public class RasporedImplementacija extends RasporedHolder{
     @Override
     public void inicijalizacija() {
         Scanner sc = new Scanner(System.in);
-        System.out.println("Izaberite tip fajla iz kojeg se vrsi ucitavanje: CSV ili JSON");
+        System.out.println("Izaberite tip fajla iz kojeg se vrsi ucitavanje: CSV, JSON");
         String izbor  = sc.nextLine();
         if (izbor.equalsIgnoreCase("CSV")) raspored.setImportExport(new ImportExportCSV2());
+        else if (izbor.equalsIgnoreCase("JSON")) raspored.setImportExport(new ImportExportJSON2());
         System.out.println("Unesite putanju do fajla i konfiguracionog fajla u obliku: putanjaDoFajla,putanjaDoKonfiguracije");
         izbor = sc.nextLine();
 
@@ -21,8 +22,18 @@ public class RasporedImplementacija extends RasporedHolder{
 
     @Override
     public void download() {
+        Scanner sc = new Scanner(System.in);
+        System.out.println("Izaberite tip fajla u koji zelite da sacuvate: CSV, PDF");
+        String izbor  = sc.nextLine();
 
+        if (izbor.equalsIgnoreCase("CSV")) raspored.setImportExport(new ImportExportCSV2());
+        else if (izbor.equalsIgnoreCase("JSON")) raspored.setImportExport(new ImportExportPDF2());
+        System.out.println("Unesite putanju do fajla: ");
+        izbor = sc.nextLine();
+
+        raspored.getImportExport().exportAction(izbor.split(",")[0]);
     }
+
 
     @Override
     public void izlistajTermine(LocalDateTime startDate, LocalDateTime endDate, List<String> kriterijumiT, Prostorija p, List<String> kriterijumiP) {
