@@ -11,7 +11,8 @@ public class Main {
         RasporedHolder r;
 
         try {
-            Class<?> impl = Class.forName("softverske_komponente.RasporedImplementacija");
+            Class<?> impl = Class.forName("org.example.RasporedImplementacija");
+            System.out.println(impl);
             r = (RasporedHolder) impl.getDeclaredConstructor().newInstance();
             System.out.println(r);
         } catch (InstantiationException e) {
@@ -28,11 +29,11 @@ public class Main {
         while(!userInput.equalsIgnoreCase("exit")){
             System.out.println("Izaberite opciju:\n1)ucitavanje rasporeda" +
                     "\n2)filtriranje rasporeda\n3)dodavanje u raspored\n4)brisanje iz rasporeda" +
-                    "\n5)menjanje termina iz rasporeda\n6)skidanje rasporeda");
+                    "\n5)menjanje termina iz rasporeda\n6)skidanje rasporeda\nZa izlaz ukucajte izlaz: exit\n");
             userInput = sc.nextLine();
             switch (userInput) {
                 case "1":
-                    //raspored.initialize();
+                    r.inicijalizacija();
                     break;
                 case "2":
                     System.out.println("Upisite argumente za prestragu:");
