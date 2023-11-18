@@ -55,31 +55,21 @@ public abstract class RasporedHolder {
      * Funkcija dodaje prostoriju sa prosledjenim osobinama u listu prostorija
      * @param prostorija
      * @param osobina
-     * @param o
      */
-    public void dodajProstorijuSaOsobinom(String prostorija, Osobine osobina, Object o){
+    public void dodajProstorijuSaOsobinom(String prostorija, Osobine osobina){
+        System.out.println("dodajprostoriju");
         Prostorija nova = new Prostorija(prostorija);
-        nova.dodajOsobinu(osobina, o);
+        nova.dodajOsobinu(osobina);
         if (raspored.getProstorije().isEmpty()){
             raspored.getProstorije().add(nova);
         }else if (!raspored.getProstorije().contains(nova)) {
             raspored.getProstorije().add(nova);
         } else {
             for(Prostorija p: raspored.getProstorije()){
-                if (p.getNaziv().equals(prostorija)) p.dodajOsobinu(osobina, o);
+                if (p.getNaziv().equals(prostorija)) p.dodajOsobinu(osobina);
             }
         }
     }
-
-    /***
-     * Funkcija dodaje zadatu prostoriju sa prosledjenim osobinama u listu prostorija
-     * @param prostorija
-     * @param osobina
-     */
-    public void dodajProstorijuSaOsobinom(String prostorija, Osobine osobina){
-        dodajProstorijuSaOsobinom(prostorija, osobina, null);
-    }
-
     /**
      * Funkcija vraca vrednost true u slucaju da prostoji preklapanje, tj da je izabrani termin zauzet,
      * a u suprotnom vrednost false
