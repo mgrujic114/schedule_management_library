@@ -1,7 +1,10 @@
 package org.example;
 
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Scanner;
 
 public abstract class RasporedHolder {
     Raspored raspored = Raspored.getInstance();
@@ -11,9 +14,10 @@ public abstract class RasporedHolder {
 
     /***
      * Funkcija dodaje termin u raspored
-     * @param t
+     * @param
      */
     public void dodajTerminURaspored(Termin t){
+
         if (raspored.getTermini().contains(t)){
             System.out.println("termin vec postoji");
             return;
@@ -125,6 +129,7 @@ public abstract class RasporedHolder {
         if (imaProjektor && t.getProstorija().isImaProjektor()) return false;
         return true;
     }
+
     public void izlistajTermine(LocalDateTime pocetak, LocalDateTime kraj,Prostorija p, List<String> kriterijumi){
         izlistajTermine(pocetak, kraj, null, p, kriterijumi);
 
@@ -138,6 +143,9 @@ public abstract class RasporedHolder {
     }
     public void izlistajTermine(Prostorija p, List<String> kriterijumi){
         izlistajTermine(null, null, null, p, kriterijumi);
+    }
+    public void izlistajTermine(Prostorija p){
+        izlistajTermine(null, null, null, p, null);
     }
     public void izlistajTermine(LocalDateTime pocetak, LocalDateTime kraj, List<String> kriterijumi){
         izlistajTermine(pocetak, kraj, kriterijumi, null, null);

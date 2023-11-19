@@ -5,6 +5,7 @@ import lombok.Setter;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -32,6 +33,11 @@ public class Raspored {
     public List<Prostorija> getProstorije() {
         if (prostorije == null) prostorije = new ArrayList<>();
         return prostorije;
+    }
+
+    public Map<Termin, Boolean> getPopunjeniTermini() {
+        if (popunjeniTermini == null) popunjeniTermini = new HashMap<>();
+        return popunjeniTermini;
     }
 
     private static class InstaceHolder{

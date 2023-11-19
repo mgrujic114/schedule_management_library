@@ -31,7 +31,7 @@ public class RasporedImplementacija extends RasporedHolder{
         System.out.println("Unesite putanju do fajla: ");
         izbor = sc.nextLine();
 
-        raspored.getImportExport().exportAction(izbor.split(",")[0]);
+        raspored.getImportExport().exportAction(izbor);
     }
 
 
@@ -54,7 +54,7 @@ public class RasporedImplementacija extends RasporedHolder{
     private List<Termin> izabraniTermini = new ArrayList<>();
 
     private boolean praznaLista(List<String> lista){
-        if (lista.isEmpty() || lista == null) return true;
+        if (lista == null || lista.isEmpty()) return true;
         else return false;
     }
     private void bezZadatog(List<String> kriterijumiP, List<String> kriterijumiT) {
