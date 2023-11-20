@@ -54,21 +54,19 @@ public class ImportExportCSV1 extends ImportExport{
                     case "start":
                         LocalDateTime startDateTime = LocalDateTime.parse(record.get(columnIndex), formatter);
                         t.setPocetak(startDateTime);
+                        LocalDate datum = LocalDate.parse(record.get(columnIndex));
+                        t.setDan(datum);
                         break;
                     case "end":
                         LocalDateTime endDateTime = LocalDateTime.parse(record.get(columnIndex), formatter);
                         t.setKraj(endDateTime);
-                        break;
-                    case "day":
-                        LocalDate datum = LocalDate.parse(record.get(columnIndex));
-                        t.setDan(datum);
                         break;
                     case "additional1":
                         t.getVezaniPodaci().add(record.get(columnIndex));
                         break;
                     case "additional2":
                         t.getVezaniPodaci().add(columnName);
-                                //getProstorija().dodajOsobinu(Osobine.valueOf(columnName), record.get(columnIndex));
+                        t.getProstorija().dodajOsobinu(Osobine.valueOf(columnName));
                         break;
                 }
             }
@@ -78,7 +76,6 @@ public class ImportExportCSV1 extends ImportExport{
     }
 
     private List<ConfigMapping> readConfig(String configPath) throws FileNotFoundException {
-        System.out.println("read config "+configPath);
         List<ConfigMapping> mappings = new ArrayList<>();
 
         File file = new File(configPath);

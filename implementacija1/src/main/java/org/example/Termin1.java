@@ -17,9 +17,9 @@ public class Termin1 extends Termin{
     public Termin1() {
     }
 
-    public Termin1(LocalDateTime pocetak, LocalDateTime kraj, String prostorija, LocalDate datum) {
+    public Termin1(LocalDateTime pocetak, LocalDateTime kraj, String prostorija) {
         super(pocetak, kraj, prostorija);
-        this.datum = datum;
+        this.datum = pocetak.toLocalDate();
         this.dan = datum.getDayOfWeek();
     }
 

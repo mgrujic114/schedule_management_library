@@ -83,7 +83,6 @@ public class ImportExportCSV2 extends ImportExport{
     }
 
     private List<ConfigMapping> readConfig(String configPath) throws FileNotFoundException {
-        System.out.println("read config "+configPath);
         List<ConfigMapping> mappings = new ArrayList<>();
 
         File file = new File(configPath);

@@ -13,11 +13,12 @@ public class RasporedImplementacija extends RasporedHolder{
         String izbor  = sc.nextLine();
         if (izbor.equalsIgnoreCase("CSV")) raspored.setImportExport(new ImportExportCSV2());
         else if (izbor.equalsIgnoreCase("JSON")) raspored.setImportExport(new ImportExportJSON2());
-        System.out.println("Unesite putanju do fajla i konfiguracionog fajla u obliku: putanjaDoFajla,putanjaDoKonfiguracije");
+        System.out.println("Unesite putanju do fajla i konfiguracionog fajla u obliku: putanjaDoFajla");
         izbor = sc.nextLine();
 
-        raspored.getImportExport().importAction(izbor.split(",")[0], izbor.split(",")[1]);
-
+        raspored.getImportExport().importAction(izbor.split(",")[0],
+                "implementacija2/src/main/resources/config.txt");
+                        //implementacija2/src/main/java/org/example/RasporedImplementacija.java
     }
 
     @Override
