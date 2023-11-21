@@ -1,4 +1,5 @@
--1 Datum MM/dd/yyyy HH:mm
+-2 Vreme HH:mm
+-1 Datum MM/dd/yyyy
 0 Ucionica place
 1 Dan day
 2 Pocetak begining
