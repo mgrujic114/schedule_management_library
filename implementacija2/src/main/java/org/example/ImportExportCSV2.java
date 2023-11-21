@@ -35,8 +35,8 @@ public class ImportExportCSV2 extends ImportExport{
         FileReader fileReader = new FileReader(fileName);
         CSVParser parser = CSVFormat.DEFAULT.withFirstRecordAsHeader().parse(fileReader);
 
-        DateTimeFormatter timeFormatter = DateTimeFormatter.ofPattern("HH:mm");
-        DateTimeFormatter dateFormatter = DateTimeFormatter.ofPattern("MM/dd/yyyy");
+        DateTimeFormatter timeFormatter = DateTimeFormatter.ofPattern(mappings.get(-2));
+        DateTimeFormatter dateFormatter = DateTimeFormatter.ofPattern(mappings.get(-1));
 
         for (CSVRecord record : parser) {
             Termin2 t = new Termin2();
@@ -44,7 +44,7 @@ public class ImportExportCSV2 extends ImportExport{
             for (ConfigMapping entry : columnMappings) {
                 int columnIndex = entry.getIndex();
 
-                if(columnIndex == -1) continue;
+                if(columnIndex < 0) continue;
 
                 String columnName = entry.getCustom();
                 //S1, petak od 13-15h uperiodu od 1.10.2023. do 20.1.2023.
