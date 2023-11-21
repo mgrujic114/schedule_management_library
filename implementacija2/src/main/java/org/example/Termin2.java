@@ -13,7 +13,6 @@ import java.time.LocalTime;
 public class Termin2 extends Termin{
     private LocalDate startDate;
     private LocalDate endDate;
-    private LocalDate datum;
     private DayOfWeek dan;
     private LocalTime pocetakVr;
     private LocalTime krajVr;
@@ -29,7 +28,6 @@ public class Termin2 extends Termin{
         this.pocetakVr = pocetak.toLocalTime();
         this.krajVr = kraj.toLocalTime();
 
-        this.datum = datum;
         this.dan = datum.getDayOfWeek();
     }
 

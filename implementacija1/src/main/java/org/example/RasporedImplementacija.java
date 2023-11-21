@@ -52,14 +52,22 @@ public class RasporedImplementacija extends RasporedHolder{
         raspored.getImportExport().exportAction(izbor.split(",")[0]);
     }
 
+    private LocalDate datum;
+    private LocalTime vremePocetka;
+    private LocalTime vremeKraja;
+    private Prostorija p;
     @Override
     public void izlistaj() {
-        LocalDate datum = null;
+        datum = null;
+        boolean datumBool = false;
 
-        LocalTime vremePocetka = null;
-        LocalTime vremeKraja = null;
+        vremePocetka = null;
+        boolean pocetakBool = false;
+        vremeKraja = null;
+        boolean krajBool = false;
 
-        Prostorija p = null;
+        p = null;
+        boolean prostorijaBool = false;
 
         Scanner sc = new Scanner(System.in);
 
@@ -68,6 +76,7 @@ public class RasporedImplementacija extends RasporedHolder{
         try {
             DateTimeFormatter formatter = DateTimeFormatter.ofPattern("MM/dd/yyyy");
             datum = LocalDate.parse(argument, formatter);
+            datumBool = true;
         } catch (Exception e) {
             System.out.println("Error parsing date. Make sure the format is correct.");
             //return;
@@ -78,6 +87,7 @@ public class RasporedImplementacija extends RasporedHolder{
         try {
             DateTimeFormatter formatter = DateTimeFormatter.ofPattern("HH:mm");
             vremePocetka = LocalTime.parse(argument, formatter);
+            pocetakBool = true;
         } catch (Exception e) {
             System.out.println("Error parsing time. Make sure the format is correct.");
             //return;
@@ -88,6 +98,7 @@ public class RasporedImplementacija extends RasporedHolder{
         try {
             DateTimeFormatter formatter = DateTimeFormatter.ofPattern("HH:mm");
             vremeKraja = LocalTime.parse(argument, formatter);
+            krajBool = true;
         } catch (Exception e) {
             System.out.println("Error parsing time. Make sure the format is correct.");
             //return;
@@ -95,19 +106,28 @@ public class RasporedImplementacija extends RasporedHolder{
 
         System.out.println("Unesite naziv prostorije");
         argument = sc.nextLine();
-        p = new Prostorija(argument);
+        if (!argument.isEmpty() && !argument.isBlank()) {
+            p = new Prostorija(argument);
+            pocetakBool = true;
+        }
 
-        izlistajTermine(datum, vremePocetka, vremeKraja, p);
+        izlistajTermine(datumBool, pocetakBool, krajBool, prostorijaBool);
         //sc.close();
     }
 
     private List<Termin> izabraniTermini = new ArrayList<>();
 
-    public void izlistajTermine(LocalDate datum, LocalTime pocetak, LocalTime kraj, Prostorija p) {
+    public void izlistajTermine(boolean datumBool, boolean pocetakBool, boolean krajBool, boolean prostorijaBool) {
         izabraniTermini.clear();
         if (datum == null || raspored.getVaziOd().isAfter(datum) || raspored.getVaziDo().isBefore(datum)) {
             System.out.println("Datum van opsega vazenja rasporeda");
 
+        }
+        if (!pocetakBool) {
+            vremePocetka = LocalTime.of(9, 0, 0); // raspored working hours?
+        }
+        if (!krajBool){
+            vremeKraja = LocalTime.of(21, 0, 0); // raspored working hours?
         }
 
         boolean moze;
@@ -116,19 +136,25 @@ public class RasporedImplementacija extends RasporedHolder{
             if (! (termin instanceof Termin1)){
                 moze = false;
             }
+
             else {
                 Termin1 t1 = (Termin1) termin;
-                if (!t1.getDatum().equals(datum)) moze = false;
-                else if (t1.getPocetakVr().isBefore(pocetak) || t1.getKrajVr().isAfter(kraj)) moze = false;
-                else if (!t1.getProstorija().equals(p)) moze = false;
+                if (datumBool && !t1.getDatum().equals(datum)) moze = false;
+                else if (t1.getPocetakVr().isBefore(vremePocetka)) moze = false;
+                else if (t1.getKrajVr().isAfter(vremeKraja)) moze = false;
+                else if (prostorijaBool && !t1.getProstorija().equals(p)) moze = false;
             }
             if (moze) izabraniTermini.add(termin);
         }
+
 //        if (startDate == null && endDate == null) {
 //            if (p != null) bezZadatogDatuma(p, kriterijumiP);
 //            else if (kriterijumiT != null) bezZadatog(kriterijumiP, kriterijumiT);
 //            else bezZadatogDatuma(kriterijumiP);
 //        }
+
+//
+//
 //        else if (p == null && (startDate != null && endDate != null ) ){
 //            if (kriterijumiP == null) bezZadateProstorije(startDate, endDate, kriterijumiT);
 //            else bezZadateProstorije(startDate, endDate, kriterijumiT, kriterijumiP);
@@ -283,11 +309,5 @@ public class RasporedImplementacija extends RasporedHolder{
 //            izabraniTermini.add(termin);
 //        }
 //    }
-//
-//    @Override
-//    public void izlistajTermine(String dan, LocalDateTime startDate, LocalDateTime endDate, String satnicaPocetka, String satnicaKraja) {
-//
-//    }
-
 
 }

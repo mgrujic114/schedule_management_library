@@ -1,5 +1,6 @@
 package org.example;
 
+import java.time.DayOfWeek;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
@@ -49,18 +50,35 @@ public class RasporedImplementacija extends RasporedHolder{
 
         raspored.getImportExport().exportAction(izbor);
     }
+    private LocalDate start = null;
+    private LocalDate end = null;
+
+    private DayOfWeek dan = null;
+
+    private LocalTime vremePocetka = null;
+    private LocalTime vremeKraja = null;
+
+    private Prostorija p = null;
 
     @Override
     public void izlistaj() {
-        LocalDate start = null;
-        LocalDate end = null;
+        start = null;
+        boolean startBool = false;
 
-        LocalDate datum = null;
+        end = null;
+        boolean endBool = false;
 
-        LocalTime vremePocetka = null;
-        LocalTime vremeKraja = null;
+        dan = null;
+        boolean danBool = false;
 
-        Prostorija p = null;
+        vremePocetka = null;
+        boolean pocetakBool = false;
+
+        vremeKraja = null;
+        boolean krajBool = false;
+
+        p = null;
+        boolean prostorijaBool = false;
 
         Scanner sc = new Scanner(System.in);
 
@@ -69,6 +87,7 @@ public class RasporedImplementacija extends RasporedHolder{
         try {
             DateTimeFormatter formatter = DateTimeFormatter.ofPattern("MM/dd/yyyy");
             start = LocalDate.parse(argument, formatter);
+            startBool = true;
         } catch (Exception e) {
             System.out.println("Error parsing time. Make sure the format is correct.");
             //return;
@@ -79,16 +98,17 @@ public class RasporedImplementacija extends RasporedHolder{
         try {
             DateTimeFormatter formatter = DateTimeFormatter.ofPattern("MM/dd/yyyy");
             end = LocalDate.parse(argument, formatter);
+            endBool = true;
         } catch (Exception e) {
             System.out.println("Error parsing time. Make sure the format is correct.");
             //return;
         }
 
-        System.out.println("Unesite datum pretrage u obliku mm/dd/yyyy");
+        System.out.println("Unesite dan pretrage na engleskom");
         argument = sc.nextLine();
         try {
-            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("MM/dd/yyyy");
-            datum = LocalDate.parse(argument, formatter);
+            dan = DayOfWeek.valueOf(argument.toUpperCase());
+            danBool = true;
         } catch (Exception e) {
             System.out.println("Error parsing date. Make sure the format is correct.");
             //return;
@@ -99,6 +119,7 @@ public class RasporedImplementacija extends RasporedHolder{
         try {
             DateTimeFormatter formatter = DateTimeFormatter.ofPattern("HH:mm");
             vremePocetka = LocalTime.parse(argument, formatter);
+            pocetakBool = true;
         } catch (Exception e) {
             System.out.println("Error parsing time. Make sure the format is correct.");
             //return;
@@ -109,6 +130,7 @@ public class RasporedImplementacija extends RasporedHolder{
         try {
             DateTimeFormatter formatter = DateTimeFormatter.ofPattern("HH:mm");
             vremeKraja = LocalTime.parse(argument, formatter);
+            krajBool = true;
         } catch (Exception e) {
             System.out.println("Error parsing time. Make sure the format is correct.");
             //return;
@@ -116,15 +138,18 @@ public class RasporedImplementacija extends RasporedHolder{
 
         System.out.println("Unesite naziv prostorije");
         argument = sc.nextLine();
-        p = new Prostorija(argument);
+        if (!argument.isBlank() || !argument.isEmpty()){
+            p = new Prostorija(argument);
+            prostorijaBool = true;
+        }
 
-        izlistajTermine(start, end, datum, vremePocetka, vremeKraja, p);
+        izlistajTermine(startBool, endBool, danBool, pocetakBool, krajBool, prostorijaBool);
         //sc.close();
     }
 
     private List<Termin> izabraniTermini = new ArrayList<>();
 
-    public void izlistajTermine(LocalDate start, LocalDate end, LocalDate datum, LocalTime pocetak, LocalTime kraj, Prostorija p) {
+    public void izlistajTermine(boolean startBool, boolean endBool, boolean danBool, boolean pocetakBool, boolean krajBool, boolean prostorijaBool) {
         izabraniTermini.clear();
         if (start == null || raspored.getVaziOd().isAfter(start) || raspored.getVaziDo().isBefore(start)) {
             System.out.println("Datum pocetka van opsega vazenja rasporeda");
@@ -133,17 +158,34 @@ public class RasporedImplementacija extends RasporedHolder{
             System.out.println("Datum kraja van opsega vazenja rasporeda");
         }
 
+        if (!pocetakBool) {
+            vremePocetka = LocalTime.of(9, 0, 0); // raspored working hours?
+        }
+        if (!krajBool){
+            vremeKraja = LocalTime.of(21, 0, 0); // raspored working hours?
+        }
+        if (!startBool){
+            start = raspored.getVaziOd();
+        }
+        if (!endBool){
+            end = raspored.getVaziDo();
+        }
+
         boolean moze;
         for (Termin termin: raspored.getTermini()){
             moze = true;
             if (! (termin instanceof Termin2)){
                 moze = false;
             }
+
             else {
                 Termin2 t2 = (Termin2) termin;
-                if (!t2.getDatum().equals(datum)) moze = false;
-                else if (t2.getPocetakVr().isBefore(pocetak) || t2.getKrajVr().isAfter(kraj)) moze = false;
-                else if (!t2.getProstorija().equals(p)) moze = false;
+                if (danBool && !t2.getDan().equals(dan)) moze = false;
+                else if (t2.getStartDate().isBefore(start)) moze = false;
+                else if (t2.getEndDate().isAfter(end)) moze = false;
+                else if (t2.getPocetakVr().isBefore(vremePocetka)) moze = false;
+                else if (t2.getKrajVr().isAfter(vremeKraja)) moze = false;
+                else if (prostorijaBool && !t2.getProstorija().equals(p)) moze = false;
             }
             if (moze) izabraniTermini.add(termin);
         }

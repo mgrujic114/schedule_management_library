@@ -82,7 +82,8 @@ public class ImportExportCSV2 extends ImportExport{
                         break;
                 }
             }
-
+            t.setPocetak(LocalDateTime.of(t.getStartDate(), t.getPocetakVr()));
+            t.setKraj(LocalDateTime.of(t.getEndDate(), t.getKrajVr()));
             raspored.getTermini().add(t);
         }
     }
