@@ -8,6 +8,7 @@ import org.apache.commons.csv.CSVRecord;
 import java.io.*;
 import java.time.DayOfWeek;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 import java.util.*;
@@ -77,7 +78,8 @@ public class ImportExportCSV1 extends ImportExport{
                         break;
                 }
             }
-
+            t.setPocetak(LocalDateTime.of(t.getDatum(), t.getPocetakVr()));
+            t.setKraj((LocalDateTime.of(t.getDatum(), t.getKrajVr())));
             raspored.getTermini().add(t);
         }
     }

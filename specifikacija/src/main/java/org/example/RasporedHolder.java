@@ -93,18 +93,26 @@ public abstract class RasporedHolder {
      * @param prostorija odredjuje prostoriju u kojoj bi se odvijao termin koji zelimo da proverimo
      * @return true/false
      */
-    public boolean postojiPreklapanje(LocalDateTime pocetak, LocalDateTime kraj, String prostorija){
-        if (raspored.getTermini().isEmpty()) return false;
+    public boolean postojiPreklapanje(LocalDateTime pocetak, LocalDateTime kraj, String prostorija) {
+        if (raspored.getTermini().isEmpty()) {
+            return false;
+        }
 
         Termin noviTermin = new Termin(pocetak, kraj, prostorija); ///novi 16.30-17.45
         ///t 17.00-18.00
-        if (raspored.getTermini().contains(noviTermin)) return true;
+        if (raspored.getTermini().contains(noviTermin)) {
+            System.out.println("Izabrani termin je zauzet");
+            return true;
+        }
 
-        for (Termin t: raspored.getTermini()){
-            if (t.equals(noviTermin)) return true;
+        for (Termin t : raspored.getTermini()) {
+            if (t.equals(noviTermin)) {
+                System.out.println("Izbarani termin je zauzet");
+                return true;
+            }
             if (t.getProstorija().equals(noviTermin.getProstorija())) {
-                if (!(noviTermin.getPocetak().isAfter(t.getPocetak()) &&
-                        noviTermin.getPocetak().isBefore(t.getKraj()))) return false;
+                if (!(noviTermin.getPocetak().isAfter(t.getPocetak())
+                        && noviTermin.getPocetak().isBefore(t.getKraj()))) return false;
                 else if (!(noviTermin.getKraj().isAfter(t.getPocetak()) &&
                         noviTermin.getKraj().isBefore(t.getKraj()))) return false;
                 else if (!(noviTermin.getPocetak().isBefore(t.getPocetak()) &&
@@ -113,6 +121,7 @@ public abstract class RasporedHolder {
         }
         return false;
     }
+    public abstract void izlistaj();
 
     public boolean imaMesta(Termin t, int brojMesta){
         return imaMestaiKomp(t, brojMesta, 0, false);
@@ -178,5 +187,5 @@ public abstract class RasporedHolder {
 //    public abstract void izlistajTermine(String dan, LocalDateTime startDate, LocalDateTime endDate, String satnicaPocetka, String satnicaKraja);
 
 
-    public abstract void izlistaj();
+
 }
