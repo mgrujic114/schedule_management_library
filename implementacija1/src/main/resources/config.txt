@@ -1,7 +1,7 @@
--1 Datum MM/dd/yyyy HH:mm
+-2 Vreme HH:mm
+-1 Datum MM/dd/yyyy
 0 Dan day
-1 Kraj end
-2 Ucionica place
-4 Profesor additional1
-3 Predmet additional1
-5 Racunar additional2
+1 Datum date
+2 Pocetak start
+3 Kraj end
+4 Ucionica place
