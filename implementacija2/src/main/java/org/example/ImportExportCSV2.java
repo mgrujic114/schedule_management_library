@@ -59,11 +59,11 @@ public class ImportExportCSV2 extends ImportExport{
                         t.setKraj(endDateTime);
                         break;
                     case "endDatum":
-                        LocalDateTime endDate = LocalDateTime.parse(record.get(columnIndex), formatter);
+                        LocalDate endDate = LocalDate.parse(record.get(columnIndex), formatter);
                         t.setEndDate(endDate);
                         break;
                     case "startDatum":
-                        LocalDateTime startDate = LocalDateTime.parse(record.get(columnIndex), formatter);
+                        LocalDate startDate = LocalDate.parse(record.get(columnIndex), formatter);
                         t.setStartDate(startDate);
                         break;
                     case "additional1":

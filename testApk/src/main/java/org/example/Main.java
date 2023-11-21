@@ -40,7 +40,8 @@ public class Main {
                     r.inicijalizacija();
                     break;
                 case "2":
-                    funkcija2(r);
+                    //funkcija2(r);
+                    r.izlistaj();
                     break;
                 case "3":
                     funkcija3(r);
@@ -69,125 +70,10 @@ public class Main {
     }
 
     private static void funkcija2(RasporedHolder r) {
-        pretragaPoTerminu(r);
+        //oba(r);
+
     }
 
-    private static void oba(RasporedHolder r){
-        System.out.println("Trenutno je moguca pretraga po prostoriji i  terminu");
-
-        LocalDateTime pocetak = LocalDateTime.now();
-        LocalDateTime kraj = LocalDateTime.now();
-
-        Scanner sc = new Scanner(System.in);
-        System.out.println("Unesite pocetak termina u obliku mm/dd/yyy hh:mm");
-        String argument = sc.nextLine();
-        try {
-            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("MM/dd/yyyy HH:mm");
-            pocetak = LocalDateTime.parse(argument, formatter);
-        } catch (Exception e) {
-            System.out.println("Error parsing date and time. Make sure the format is correct.");
-        }
-        System.out.println("Unesite kraj termina u obliku mm/dd/yyy hh:mm");
-        argument = sc.nextLine();
-        try {
-            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("MM/dd/yyyy HH:mm");
-            kraj = LocalDateTime.parse(argument, formatter);
-        } catch (Exception e) {
-            System.out.println("Error parsing date and time. Make sure the format is correct.");
-        }
-
-        System.out.println("Zelite li da dodate jos kriterijuma vezanih za termin?");
-        List<String> kritT = null;
-        argument = sc.nextLine();
-        if (argument.equalsIgnoreCase("da")) {
-             kritT = new ArrayList<>();
-            System.out.println("Za kraj unosa unesite \"kraj\"");
-            while (argument.equalsIgnoreCase("kraj")) {
-                argument = sc.nextLine();
-                kritT.add(argument);
-            }
-        }
-
-        System.out.println("Unesite naziv prostorije");
-        argument = sc.nextLine();
-        Prostorija p = new Prostorija(argument);
-
-        System.out.println("Zelite li da dodate jos kriterijuma?");
-        argument = sc.nextLine();
-        List<String> kritP = null;
-        if (argument.equalsIgnoreCase("da")) {
-            kritP = new ArrayList<>();
-            System.out.println("Za kraj unosa unesite \"kraj\"");
-            while (argument.equalsIgnoreCase("kraj")) {
-                argument = sc.nextLine();
-                kritP.add(argument);
-            }
-        }
-        r.izlistajTermine(pocetak, kraj, kritT, p, kritP);
-        //sc.close();
-    }
-
-    private static void pretragaPoProstoriji(RasporedHolder r){
-        System.out.println("Trenutno je moguca pretraga po prostoriji");
-
-        Scanner sc = new Scanner(System.in);
-        System.out.println("Unesite naziv prostorije");
-        String argument = sc.nextLine();
-        Prostorija p = new Prostorija(argument);
-
-        System.out.println("Zelite li da dodate jos kriterijuma?");
-        argument = sc.nextLine();
-        if (argument.equalsIgnoreCase("da")){
-            List<String> krit = new ArrayList<>();
-            System.out.println("Za kraj unosa unesite \"kraj\"");
-            while (argument.equalsIgnoreCase("kraj")){
-                argument = sc.nextLine();
-                krit.add(argument);
-            }
-            r.izlistajTermine(p, krit);
-        }
-        else r.izlistajTermine(p);
-        //sc.close();
-    }
-
-    private static void pretragaPoTerminu(RasporedHolder r) {
-        System.out.println("Trenutno je moguca pretraga po terminu");
-
-        LocalDateTime pocetak = LocalDateTime.now();
-        LocalDateTime kraj = LocalDateTime.now();
-
-        Scanner sc = new Scanner(System.in);
-        System.out.println("Unesite pocetak termina u obliku mm/dd/yyy hh:mm");
-        String argument = sc.nextLine();
-        try {
-            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("MM/dd/yyyy HH:mm");
-            pocetak = LocalDateTime.parse(argument, formatter);
-        } catch (Exception e) {
-            System.out.println("Error parsing date and time. Make sure the format is correct.");
-        }
-        System.out.println("Unesite kraj termina u obliku mm/dd/yyy hh:mm");
-        argument = sc.nextLine();
-        try {
-            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("MM/dd/yyyy HH:mm");
-            kraj = LocalDateTime.parse(argument, formatter);
-        } catch (Exception e) {
-            System.out.println("Error parsing date and time. Make sure the format is correct.");
-        }
-
-        System.out.println("Zelite li da dodate jos kriterijuma?");
-        argument = sc.nextLine();
-        if (argument.equalsIgnoreCase("da")){
-            List<String> krit = new ArrayList<>();
-            System.out.println("Za kraj unosa unesite \"kraj\"");
-            while (argument.equalsIgnoreCase("kraj")){
-                argument = sc.nextLine();
-                krit.add(argument);
-            }
-            r.izlistajTermine(pocetak, kraj, krit);
-        }
-        else r.izlistajTermine(pocetak, kraj);
-        //sc.close();
-    }
 
     private static void funkcija3(RasporedHolder r) {
         LocalDateTime pocetak = LocalDateTime.now();
@@ -317,4 +203,125 @@ public class Main {
         r.dodajProstorijuSaOsobinom(naziv, o);
         //sc.close();
     }
+
+
+
+
+//    private static void oba(RasporedHolder r){
+//        System.out.println("Trenutno je moguca pretraga po prostoriji i  terminu");
+//
+//        LocalDateTime pocetak = LocalDateTime.now();
+//        LocalDateTime kraj = LocalDateTime.now();
+//
+//        Scanner sc = new Scanner(System.in);
+//        System.out.println("Unesite pocetak termina u obliku mm/dd/yyy hh:mm");
+//        String argument = sc.nextLine();
+//        try {
+//            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("MM/dd/yyyy HH:mm");
+//            pocetak = LocalDateTime.parse(argument, formatter);
+//        } catch (Exception e) {
+//            System.out.println("Error parsing date and time. Make sure the format is correct.");
+//        }
+//        System.out.println("Unesite kraj termina u obliku mm/dd/yyy hh:mm");
+//        argument = sc.nextLine();
+//        try {
+//            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("MM/dd/yyyy HH:mm");
+//            kraj = LocalDateTime.parse(argument, formatter);
+//        } catch (Exception e) {
+//            System.out.println("Error parsing date and time. Make sure the format is correct.");
+//        }
+//
+//        System.out.println("Zelite li da dodate jos kriterijuma vezanih za termin?");
+//        List<String> kritT = null;
+//        argument = sc.nextLine();
+//        if (argument.equalsIgnoreCase("da")) {
+//            kritT = new ArrayList<>();
+//            System.out.println("Za kraj unosa unesite \"kraj\"");
+//            while (argument.equalsIgnoreCase("kraj")) {
+//                argument = sc.nextLine();
+//                kritT.add(argument);
+//            }
+//        }
+//
+//        System.out.println("Unesite naziv prostorije");
+//        argument = sc.nextLine();
+//        Prostorija p = new Prostorija(argument);
+//
+//        System.out.println("Zelite li da dodate jos kriterijuma?");
+//        argument = sc.nextLine();
+//        List<String> kritP = null;
+//        if (argument.equalsIgnoreCase("da")) {
+//            kritP = new ArrayList<>();
+//            System.out.println("Za kraj unosa unesite \"kraj\"");
+//            while (argument.equalsIgnoreCase("kraj")) {
+//                argument = sc.nextLine();
+//                kritP.add(argument);
+//            }
+//        }
+//        r.izlistajTermine(pocetak, kraj, kritT, p, kritP);
+//        //sc.close();
+//    }
+//
+//    private static void pretragaPoProstoriji(RasporedHolder r){
+//        System.out.println("Trenutno je moguca pretraga po prostoriji");
+//
+//        Scanner sc = new Scanner(System.in);
+//        System.out.println("Unesite naziv prostorije");
+//        String argument = sc.nextLine();
+//        Prostorija p = new Prostorija(argument);
+//
+//        System.out.println("Zelite li da dodate jos kriterijuma?");
+//        argument = sc.nextLine();
+//        if (argument.equalsIgnoreCase("da")){
+//            List<String> krit = new ArrayList<>();
+//            System.out.println("Za kraj unosa unesite \"kraj\"");
+//            while (argument.equalsIgnoreCase("kraj")){
+//                argument = sc.nextLine();
+//                krit.add(argument);
+//            }
+//            r.izlistajTermine(p, krit);
+//        }
+//        else r.izlistajTermine(p);
+//        //sc.close();
+//    }
+//
+//    private static void pretragaPoTerminu(RasporedHolder r) {
+//        System.out.println("Trenutno je moguca pretraga po terminu");
+//
+//        LocalDateTime pocetak = LocalDateTime.now();
+//        LocalDateTime kraj = LocalDateTime.now();
+//
+//        Scanner sc = new Scanner(System.in);
+//        System.out.println("Unesite pocetak termina u obliku mm/dd/yyy hh:mm");
+//        String argument = sc.nextLine();
+//        try {
+//            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("MM/dd/yyyy HH:mm");
+//            pocetak = LocalDateTime.parse(argument, formatter);
+//        } catch (Exception e) {
+//            System.out.println("Error parsing date and time. Make sure the format is correct.");
+//        }
+//        System.out.println("Unesite kraj termina u obliku mm/dd/yyy hh:mm");
+//        argument = sc.nextLine();
+//        try {
+//            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("MM/dd/yyyy HH:mm");
+//            kraj = LocalDateTime.parse(argument, formatter);
+//        } catch (Exception e) {
+//            System.out.println("Error parsing date and time. Make sure the format is correct.");
+//        }
+//
+//        System.out.println("Zelite li da dodate jos kriterijuma?");
+//        argument = sc.nextLine();
+//        if (argument.equalsIgnoreCase("da")){
+//            List<String> krit = new ArrayList<>();
+//            System.out.println("Za kraj unosa unesite \"kraj\"");
+//            while (argument.equalsIgnoreCase("kraj")){
+//                argument = sc.nextLine();
+//                krit.add(argument);
+//            }
+//            r.izlistajTermine(pocetak, kraj, krit);
+//        }
+//        else r.izlistajTermine(pocetak, kraj);
+//        //sc.close();
+//    }
+
 }

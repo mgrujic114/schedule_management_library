@@ -3,6 +3,7 @@ package org.example;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -19,6 +20,8 @@ public class Raspored {
     private LocalDateTime validFrom;
     private LocalDateTime validUntill;
     private ImportExport importExport;
+    private LocalDate vaziOd;
+    private LocalDate vaziDo;
     private Raspored(){
     }
    public static Raspored getInstance(){
