@@ -6,8 +6,10 @@ import org.apache.commons.csv.CSVPrinter;
 import org.apache.commons.csv.CSVRecord;
 
 import java.io.*;
+import java.time.DayOfWeek;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 import java.util.*;
 
@@ -33,7 +35,8 @@ public class ImportExportCSV2 extends ImportExport{
         FileReader fileReader = new FileReader(fileName);
         CSVParser parser = CSVFormat.DEFAULT.withFirstRecordAsHeader().parse(fileReader);
 
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern(mappings.get(-1));
+        DateTimeFormatter timeFormatter = DateTimeFormatter.ofPattern("HH:mm");
+        DateTimeFormatter dateFormatter = DateTimeFormatter.ofPattern("MM/dd/yyyy");
 
         for (CSVRecord record : parser) {
             Termin2 t = new Termin2();
@@ -44,34 +47,36 @@ public class ImportExportCSV2 extends ImportExport{
                 if(columnIndex == -1) continue;
 
                 String columnName = entry.getCustom();
+                //S1, petak od 13-15h uperiodu od 1.10.2023. do 20.1.2023.
                 switch (mappings.get(columnIndex)) {
                     case "place":
                         t.setProstorija(new Prostorija(record.get(columnIndex)));
                         break;
                     case "start":
-                        LocalDateTime startDateTime = LocalDateTime.parse(record.get(columnIndex), formatter);
-                        t.setPocetak(startDateTime);
-                        LocalDate datum = startDateTime.toLocalDate();
-                        t.setDan(datum);
+                        LocalDate startDate = LocalDate.parse(record.get(columnIndex), dateFormatter);
+                        t.setStartDate(startDate);
                         break;
                     case "end":
-                        LocalDateTime endDateTime = LocalDateTime.parse(record.get(columnIndex), formatter);
-                        t.setKraj(endDateTime);
-                        break;
-                    case "endDatum":
-                        LocalDate endDate = LocalDate.parse(record.get(columnIndex), formatter);
+                        LocalDate endDate = LocalDate.parse(record.get(columnIndex), dateFormatter);
                         t.setEndDate(endDate);
                         break;
-                    case "startDatum":
-                        LocalDate startDate = LocalDate.parse(record.get(columnIndex), formatter);
-                        t.setStartDate(startDate);
+                    case "ending":
+                        LocalTime endTime = LocalTime.parse(record.get(columnIndex), timeFormatter);
+                        t.setKrajVr(endTime);
+                        break;
+                    case "begining":
+                        LocalTime startTime= LocalTime.parse(record.get(columnIndex), timeFormatter);
+                        t.setPocetakVr(startTime);
+                        break;
+                    case "day":
+                        DayOfWeek dan = DayOfWeek.valueOf(record.get(columnIndex).toUpperCase());
+                        t.setDan(dan);
                         break;
                     case "additional1":
                         t.getVezaniPodaci().add(record.get(columnIndex));
                         break;
                     case "additional2":
-                        t.getVezaniPodaci().add(columnName);
-                        //getProstorija().dodajOsobinu(Osobine.valueOf(columnName), record.get(columnIndex));
+                            t.getProstorija().dodajOsobinu(Osobine.valueOf(columnName.toUpperCase()), record.get(columnIndex));
                         break;
                 }
             }

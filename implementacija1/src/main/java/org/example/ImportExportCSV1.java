@@ -65,8 +65,7 @@ public class ImportExportCSV1 extends ImportExport{
                         t.getVezaniPodaci().add(record.get(columnIndex));
                         break;
                     case "additional2":
-                        t.getVezaniPodaci().add(columnName);
-                        t.getProstorija().dodajOsobinu(Osobine.valueOf(columnName));
+                        t.getProstorija().dodajOsobinu(Osobine.valueOf(columnName.toUpperCase()), record.get(columnIndex));
                         break;
                 }
             }

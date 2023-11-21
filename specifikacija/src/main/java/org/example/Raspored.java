@@ -15,10 +15,8 @@ import java.util.Map;
 
 public class Raspored {
     private List<Termin> termini;
-    private Map<Termin, Boolean> popunjeniTermini;
+    private Map<Termin, Boolean> popunjeniTermini; //obrisati
     private List<Prostorija> prostorije;
-    private LocalDateTime validFrom;
-    private LocalDateTime validUntill;
     private ImportExport importExport;
     private LocalDate vaziOd;
     private LocalDate vaziDo;

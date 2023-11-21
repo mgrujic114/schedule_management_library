@@ -60,17 +60,17 @@ public abstract class RasporedHolder {
      * @param prostorija
      * @param osobina
      */
-    public void dodajProstorijuSaOsobinom(String prostorija, Osobine osobina){
+    public void dodajProstorijuSaOsobinom(String prostorija, Osobine osobina, String opis){
         System.out.println("dodajprostoriju");
         Prostorija nova = new Prostorija(prostorija);
-        nova.dodajOsobinu(osobina);
+        nova.dodajOsobinu(osobina, opis);
         if (raspored.getProstorije().isEmpty()){
             raspored.getProstorije().add(nova);
         }else if (!raspored.getProstorije().contains(nova)) {
             raspored.getProstorije().add(nova);
         } else {
             for(Prostorija p: raspored.getProstorije()){
-                if (p.getNaziv().equals(prostorija)) p.dodajOsobinu(osobina);
+                if (p.getNaziv().equals(prostorija)) p.dodajOsobinu(osobina, opis);
             }
         }
     }
@@ -124,9 +124,11 @@ public abstract class RasporedHolder {
         return imaMestaiKomp(t, 0, brojKomp, false);
     }
     public boolean imaMestaiKomp(Termin t, int brojMesta, int potrebnihKomp, boolean imaProjektor){
-        if (potrebnihKomp>0 && t.getProstorija().getBrojRacunara()<potrebnihKomp) return false;
-        if (brojMesta>0 && t.getProstorija().getBrojMesta()<brojMesta) return false;
-        if (imaProjektor && t.getProstorija().isImaProjektor()) return false;
+        if (potrebnihKomp>0 && t.getProstorija().getOsobine().containsKey(Osobine.RACUNAR) &&
+                (Integer.parseInt(t.getProstorija().getOsobine().get(Osobine.RACUNAR)))<potrebnihKomp) return false;
+        if (brojMesta>0 && t.getProstorija().getOsobine().containsKey(Osobine.KAPACITET) &&
+                (Integer.parseInt(t.getProstorija().getOsobine().get(Osobine.KAPACITET)))<brojMesta) return false;
+        if (imaProjektor && t.getProstorija().getOsobine().containsKey(Osobine.PROJEKTOR)) return false;
         return true;
     }
 

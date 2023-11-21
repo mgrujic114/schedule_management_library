@@ -1,7 +1,10 @@
 -1 Datum MM/dd/yyyy HH:mm
-0 Pocetak start
-1 Kraj end
-2 Ucionica place
-4 Profesor additional1
-3 Predmet additional1
-5 Racunar additional2
+0 Ucionica place
+1 Dan day
+2 Pocetak begining
+3 Kraj ending
+4 Od start
+5 Do end
+6 Predmet additional1
+7 Profesor additional1
+8 Racunar additional2

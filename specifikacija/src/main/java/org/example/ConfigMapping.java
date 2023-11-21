@@ -2,7 +2,7 @@ package org.example;
 
 import lombok.Getter;
 import lombok.Setter;
-
+//za citanje config fajla
 @Getter
 @Setter
 public class ConfigMapping {

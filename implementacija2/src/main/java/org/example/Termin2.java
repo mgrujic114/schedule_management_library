@@ -39,12 +39,6 @@ public class Termin2 extends Termin{
         this.endDate = endDate;
     }
 
-
-    public void setDan(LocalDate datum) {
-        this.datum = datum;
-        this.dan = datum.getDayOfWeek();
-    }
-
     @Override
     public void setPocetak(LocalDateTime pocetak) {
         super.setPocetak(pocetak);

@@ -200,7 +200,9 @@ public class Main {
         } catch (IllegalArgumentException e) {
             System.out.println("Invalid user input: " + osobina);
         }
-        r.dodajProstorijuSaOsobinom(naziv, o);
+        System.out.println("karakteristike: ");
+        String opis = sc.nextLine();
+        r.dodajProstorijuSaOsobinom(naziv, o, opis);
         //sc.close();
     }
 
