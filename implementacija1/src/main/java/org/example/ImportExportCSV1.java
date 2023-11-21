@@ -6,8 +6,10 @@ import org.apache.commons.csv.CSVPrinter;
 import org.apache.commons.csv.CSVRecord;
 
 import java.io.*;
+import java.time.DayOfWeek;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 import java.util.*;
 
@@ -34,7 +36,8 @@ public class ImportExportCSV1 extends ImportExport{
         FileReader fileReader = new FileReader(fileName);
         CSVParser parser = CSVFormat.DEFAULT.withFirstRecordAsHeader().parse(fileReader);
 
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern(mappings.get(-1));
+        DateTimeFormatter timeFormatter = DateTimeFormatter.ofPattern("HH:mm");
+        DateTimeFormatter dateFormatter = DateTimeFormatter.ofPattern("MM/dd/yyyy");
 
         for (CSVRecord record : parser) {
             Termin1 t = new Termin1();
@@ -52,14 +55,20 @@ public class ImportExportCSV1 extends ImportExport{
                         t.setProstorija(p);
                         break;
                     case "start":
-                        LocalDateTime startDateTime = LocalDateTime.parse(record.get(columnIndex), formatter);
-                        t.setPocetak(startDateTime);
-                        LocalDate datum = LocalDate.parse(record.get(columnIndex));
-                        t.setDan(datum);
+                        LocalTime startTime = LocalTime.parse(record.get(columnIndex), timeFormatter);
+                        t.setPocetakVr(startTime);
                         break;
                     case "end":
-                        LocalDateTime endDateTime = LocalDateTime.parse(record.get(columnIndex), formatter);
-                        t.setKraj(endDateTime);
+                        LocalTime endTime = LocalTime.parse(record.get(columnIndex), timeFormatter);
+                        t.setKrajVr(endTime);
+                        break;
+                    case "date":
+                        LocalDate datum = LocalDate.parse(record.get(columnIndex), dateFormatter);
+                        t.setDatum(datum);
+                        break;
+                    case "day":
+                        DayOfWeek dan = DayOfWeek.valueOf(record.get(columnIndex));
+                        t.setDan(dan);
                         break;
                     case "additional1":
                         t.getVezaniPodaci().add(record.get(columnIndex));

@@ -50,7 +50,9 @@ public class ImportExportCSV2 extends ImportExport{
                 //S1, petak od 13-15h uperiodu od 1.10.2023. do 20.1.2023.
                 switch (mappings.get(columnIndex)) {
                     case "place":
-                        t.setProstorija(new Prostorija(record.get(columnIndex)));
+                        Prostorija p  = new Prostorija(record.get(columnIndex));
+                        raspored.getProstorije().add(p);
+                        t.setProstorija(p);
                         break;
                     case "start":
                         LocalDate startDate = LocalDate.parse(record.get(columnIndex), dateFormatter);
