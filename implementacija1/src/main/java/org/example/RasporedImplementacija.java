@@ -108,16 +108,45 @@ public class RasporedImplementacija extends RasporedHolder{
         argument = sc.nextLine();
         if (!argument.isEmpty() && !argument.isBlank()) {
             p = new Prostorija(argument);
-            pocetakBool = true;
+            prostorijaBool = true;
         }
 
-        izlistajTermine(datumBool, pocetakBool, krajBool, prostorijaBool);
+        izlistajZauzeteTermine(datumBool, pocetakBool, krajBool, prostorijaBool);
+        izlistajSlobodneTermine(datumBool, pocetakBool, krajBool, prostorijaBool);
         //sc.close();
+        //System.out.println(izabraniTermini);
     }
 
     private List<Termin> izabraniTermini = new ArrayList<>();
 
-    public void izlistajTermine(boolean datumBool, boolean pocetakBool, boolean krajBool, boolean prostorijaBool) {
+    public void izlistajSlobodneTermine(boolean datumBool, boolean pocetakBool, boolean krajBool, boolean prostorijaBool) {
+
+        Termin t = new Termin();
+        boolean moze = true;
+        List<Termin> novi = new ArrayList<>();
+
+        for (LocalTime vreme = vremePocetka; vreme.isBefore(vremeKraja); vreme = vreme.plusHours(1)){
+            t.setPocetak(LocalDateTime.of(datum, vreme));
+            t.setKraj(LocalDateTime.of(datum, vreme.plusHours(1)));
+            t.setProstorija(p);
+            moze = true;
+            //System.out.println(t);
+            for (Termin ter: izabraniTermini){
+                if (t.getProstorija().equals(ter.getProstorija())) {
+                    if (ter.getPocetak().isAfter(t.getPocetak())
+                            && ter.getPocetak().isBefore(t.getKraj())) moze = false; //????????????????????????????????
+                    else if (ter.getKraj().isAfter(t.getPocetak()) &&
+                            ter.getKraj().isBefore(t.getKraj())) moze = false;
+                    else if (ter.getPocetak().isBefore(t.getPocetak()) &&
+                            ter.getKraj().isAfter(t.getKraj())) moze = false;
+                } else moze = false;
+            }
+            if (moze) System.out.println(t);
+        }
+
+    }
+
+    public void izlistajZauzeteTermine(boolean datumBool, boolean pocetakBool, boolean krajBool, boolean prostorijaBool) {
         izabraniTermini.clear();
         if (datum == null || raspored.getVaziOd().isAfter(datum) || raspored.getVaziDo().isBefore(datum)) {
             System.out.println("Datum van opsega vazenja rasporeda");
@@ -131,6 +160,7 @@ public class RasporedImplementacija extends RasporedHolder{
         }
 
         boolean moze;
+
         for (Termin termin: raspored.getTermini()){
             moze = true;
             if (! (termin instanceof Termin1)){
@@ -160,7 +190,6 @@ public class RasporedImplementacija extends RasporedHolder{
 //            else bezZadateProstorije(startDate, endDate, kriterijumiT, kriterijumiP);
 //        }
 //        else saObaKriterijuma(startDate, endDate, kriterijumiT, p, kriterijumiP);
-        System.out.println(izabraniTermini);
     }
 
 //    private boolean praznaLista(List<String> lista){
