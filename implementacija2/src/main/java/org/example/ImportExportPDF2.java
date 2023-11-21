@@ -49,7 +49,6 @@ public class ImportExportPDF2 extends ImportExport{
 
                 contentStream.moveTextPositionByAmount(0, -20);
                 contentStream.showText("Dan: " + ((Termin2)t).getDan());
-                contentStream.showText(", Datum: " + ((Termin2)t).getDatum());
                 contentStream.showText(", Pocetak: " + ((Termin2)t).getPocetakVr());
                 contentStream.showText(", Kraj: " + ((Termin2)t).getKrajVr());
                 contentStream.showText(", Mesto: " + t.getProstorija());
