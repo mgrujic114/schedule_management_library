@@ -111,8 +111,8 @@ public class ImportExportCSV1 extends ImportExport{
         for (Termin appointment : raspored.getTermini()) {
             csvPrinter.printRecord(
                     ((Termin1) appointment).getDan(),
-                    appointment.getPocetak(),
-                    appointment.getKraj(),
+                    ((Termin1) appointment).getPocetakVr(),
+                    ((Termin1) appointment).getKrajVr(),
                     appointment.getProstorija()
             );
         }

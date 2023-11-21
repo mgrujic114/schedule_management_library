@@ -57,6 +57,9 @@ public class Main {
                 case "7":
                     funkcija7(r);
                     break;
+                case "exit":
+                    System.out.println("hvala cao");
+                    break;
                 default:
                     System.out.println("Niste izabrali nista");
                     break;
@@ -76,18 +79,18 @@ public class Main {
         LocalDateTime kraj = LocalDateTime.now();
 
         Scanner sc = new Scanner(System.in);
-        System.out.println("Unesite pocetak termina u obliku dd/mm/yyy hh:mm");
+        System.out.println("Unesite pocetak termina u obliku mm/dd/yyy hh:mm");
         String argument = sc.nextLine();
         try {
-            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm");
+            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("MM/dd/yyyy HH:mm");
             pocetak = LocalDateTime.parse(argument, formatter);
         } catch (Exception e) {
             System.out.println("Error parsing date and time. Make sure the format is correct.");
         }
-        System.out.println("Unesite kraj termina u obliku dd/mm/yyy hh:mm");
+        System.out.println("Unesite kraj termina u obliku mm/dd/yyy hh:mm");
         argument = sc.nextLine();
         try {
-            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm");
+            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("MM/dd/yyyy HH:mm");
             kraj = LocalDateTime.parse(argument, formatter);
         } catch (Exception e) {
             System.out.println("Error parsing date and time. Make sure the format is correct.");
@@ -121,7 +124,7 @@ public class Main {
             }
         }
         r.izlistajTermine(pocetak, kraj, kritT, p, kritP);
-        sc.close();
+        //sc.close();
     }
 
     private static void pretragaPoProstoriji(RasporedHolder r){
@@ -144,7 +147,7 @@ public class Main {
             r.izlistajTermine(p, krit);
         }
         else r.izlistajTermine(p);
-        sc.close();
+        //sc.close();
     }
 
     private static void pretragaPoTerminu(RasporedHolder r) {
@@ -154,18 +157,18 @@ public class Main {
         LocalDateTime kraj = LocalDateTime.now();
 
         Scanner sc = new Scanner(System.in);
-        System.out.println("Unesite pocetak termina u obliku dd/mm/yyy hh:mm");
+        System.out.println("Unesite pocetak termina u obliku mm/dd/yyy hh:mm");
         String argument = sc.nextLine();
         try {
-            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm");
+            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("MM/dd/yyyy HH:mm");
             pocetak = LocalDateTime.parse(argument, formatter);
         } catch (Exception e) {
             System.out.println("Error parsing date and time. Make sure the format is correct.");
         }
-        System.out.println("Unesite kraj termina u obliku dd/mm/yyy hh:mm");
+        System.out.println("Unesite kraj termina u obliku mm/dd/yyy hh:mm");
         argument = sc.nextLine();
         try {
-            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm");
+            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("MM/dd/yyyy HH:mm");
             kraj = LocalDateTime.parse(argument, formatter);
         } catch (Exception e) {
             System.out.println("Error parsing date and time. Make sure the format is correct.");
@@ -183,7 +186,7 @@ public class Main {
             r.izlistajTermine(pocetak, kraj, krit);
         }
         else r.izlistajTermine(pocetak, kraj);
-        sc.close();
+        //sc.close();
     }
 
     private static void funkcija3(RasporedHolder r) {
@@ -191,18 +194,18 @@ public class Main {
         LocalDateTime kraj = LocalDateTime.now();
 
         Scanner sc = new Scanner(System.in);
-        System.out.println("Unesite pocetak termina u obliku dd/mm/yyy hh:mm");
+        System.out.println("Unesite pocetak termina u obliku mm/dd/yyy hh:mm");
         String argument = sc.nextLine();
         try {
-            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm");
+            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("MM/dd/yyyy HH:mm");
             pocetak = LocalDateTime.parse(argument, formatter);
         } catch (Exception e) {
             System.out.println("Error parsing date and time. Make sure the format is correct.");
         }
-        System.out.println("Unesite kraj termina u obliku dd/mm/yyy hh:mm");
+        System.out.println("Unesite kraj termina u obliku mm/dd/yyy hh:mm");
         argument = sc.nextLine();
         try {
-            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm");
+            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("MM/dd/yyyy HH:mm");
             kraj = LocalDateTime.parse(argument, formatter);
         } catch (Exception e) {
             System.out.println("Error parsing date and time. Make sure the format is correct.");
@@ -220,18 +223,18 @@ public class Main {
         LocalDateTime kraj = LocalDateTime.now();
 
         Scanner sc = new Scanner(System.in);
-        System.out.println("Unesite pocetak termina u obliku dd/mm/yyy hh:mm");
+        System.out.println("Unesite pocetak termina u obliku mm/dd/yyy hh:mm");
         String argument = sc.nextLine();
         try {
-            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm");
+            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("MM/dd/yyyy HH:mm");
             pocetak = LocalDateTime.parse(argument, formatter);
         } catch (Exception e) {
             System.out.println("Error parsing date and time. Make sure the format is correct.");
         }
-        System.out.println("Unesite kraj termina u obliku dd/mm/yyy hh:mm");
+        System.out.println("Unesite kraj termina u obliku mm/dd/yyy hh:mm");
         argument = sc.nextLine();
         try {
-            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm");
+            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("MM/dd/yyyy HH:mm");
             kraj = LocalDateTime.parse(argument, formatter);
         } catch (Exception e) {
             System.out.println("Error parsing date and time. Make sure the format is correct.");
@@ -252,35 +255,35 @@ public class Main {
         LocalDateTime noviKraj = LocalDateTime.now();
 
         Scanner sc = new Scanner(System.in);
-        System.out.println("Unesite stari pocetak termina u obliku dd/mm/yyy hh:mm");
+        System.out.println("Unesite stari pocetak termina u obliku mm/dd/yyy hh:mm");
         String argument = sc.nextLine();
         try {
-            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm");
+            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("MM/dd/yyyy HH:mm");
             pocetak = LocalDateTime.parse(argument, formatter);
         } catch (Exception e) {
             System.out.println("Error parsing date and time. Make sure the format is correct.");
         }
-        System.out.println("Unesite stari kraj termina u obliku dd/mm/yyy hh:mm");
+        System.out.println("Unesite stari kraj termina u obliku mm/dd/yyy hh:mm");
         argument = sc.nextLine();
         try {
-            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm");
+            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("MM/dd/yyyy HH:mm");
             kraj = LocalDateTime.parse(argument, formatter);
         } catch (Exception e) {
             System.out.println("Error parsing date and time. Make sure the format is correct.");
         }
 
-        System.out.println("Unesite novi pocetak termina u obliku dd/mm/yyy hh:mm");
+        System.out.println("Unesite novi pocetak termina u obliku mm/dd/yyy hh:mm");
         argument = sc.nextLine();
         try {
-            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm");
+            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("MM/dd/yyyy HH:mm");
             noviPocetak = LocalDateTime.parse(argument, formatter);
         } catch (Exception e) {
             System.out.println("Error parsing date and time. Make sure the format is correct.");
         }
-        System.out.println("Unesite novi kraj termina u obliku dd/mm/yyy hh:mm");
+        System.out.println("Unesite novi kraj termina u obliku mm/dd/yyy hh:mm");
         argument = sc.nextLine();
         try {
-            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm");
+            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("MM/dd/yyyy HH:mm");
             noviKraj = LocalDateTime.parse(argument, formatter);
         } catch (Exception e) {
             System.out.println("Error parsing date and time. Make sure the format is correct.");
@@ -312,6 +315,6 @@ public class Main {
             System.out.println("Invalid user input: " + osobina);
         }
         r.dodajProstorijuSaOsobinom(naziv, o);
-        sc.close();
+        //sc.close();
     }
 }

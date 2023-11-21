@@ -51,6 +51,8 @@ public class ImportExportCSV2 extends ImportExport{
                     case "start":
                         LocalDateTime startDateTime = LocalDateTime.parse(record.get(columnIndex), formatter);
                         t.setPocetak(startDateTime);
+                        LocalDate datum = startDateTime.toLocalDate();
+                        t.setDan(datum);
                         break;
                     case "end":
                         LocalDateTime endDateTime = LocalDateTime.parse(record.get(columnIndex), formatter);
@@ -63,10 +65,6 @@ public class ImportExportCSV2 extends ImportExport{
                     case "startDatum":
                         LocalDateTime startDate = LocalDateTime.parse(record.get(columnIndex), formatter);
                         t.setStartDate(startDate);
-                        break;
-                    case "day":
-                        LocalDate datum = LocalDate.parse(record.get(columnIndex));
-                        t.setDan(datum);
                         break;
                     case "additional1":
                         t.getVezaniPodaci().add(record.get(columnIndex));
@@ -111,15 +109,14 @@ public class ImportExportCSV2 extends ImportExport{
         return true;
     }
     private void writeData(String path) throws IOException {
-        // Create a FileWriter and CSVPrinter
         FileWriter fileWriter = new FileWriter(path);
         CSVPrinter csvPrinter = new CSVPrinter(fileWriter, CSVFormat.DEFAULT);
 
         for (Termin appointment : raspored.getTermini()) {
             csvPrinter.printRecord(
                     ((Termin2) appointment).getDan(),
-                    appointment.getPocetak(),
-                    appointment.getKraj(),
+                    ((Termin2) appointment).getPocetakVr(),
+                    ((Termin2) appointment).getKrajVr(),
                     appointment.getProstorija()
             );
         }

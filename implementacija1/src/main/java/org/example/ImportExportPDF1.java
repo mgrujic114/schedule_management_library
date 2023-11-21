@@ -51,8 +51,8 @@ public class ImportExportPDF1 extends ImportExport{
                 contentStream.moveTextPositionByAmount(0, -20);
                 contentStream.showText("Dan: " + ((Termin1)t).getDan());
                 contentStream.showText(", Datum: " + ((Termin1)t).getDatum());
-                contentStream.showText(", Pocetak: " + t.getPocetak());
-                contentStream.showText(", Kraj: " + t.getKraj());
+                contentStream.showText(", Pocetak: " + ((Termin1)t).getPocetakVr());
+                contentStream.showText(", Kraj: " + ((Termin1)t).getKrajVr());
                 contentStream.showText(", Mesto: " + t.getProstorija());
 
                 y -= 20;
