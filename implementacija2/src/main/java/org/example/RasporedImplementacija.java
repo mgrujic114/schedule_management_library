@@ -203,15 +203,14 @@ public class RasporedImplementacija extends RasporedHolder{
             for (Termin ter : izabraniTermini) {
                     ter2 = (Termin2) ter;
                     if (danBool && !(ter2.getDan().equals(t.getDan()))) moze = false;
-                    else if ((prostorijaBool && t.getProstorija().equals(ter.getProstorija()))) {
-                        if (ter2.getPocetakVr().isAfter(t.getPocetakVr())
-                                && ter2.getPocetakVr().isBefore(t.getKrajVr()))
-                            moze = false; //????????????????????????????????
-                        else if (ter2.getKrajVr().isAfter(t.getPocetakVr()) &&
-                                ter2.getKrajVr().isBefore(t.getKrajVr())) moze = false;
-                        else if (ter2.getPocetakVr().isBefore(t.getPocetakVr()) &&
-                                ter2.getKrajVr().isAfter(t.getKrajVr())) moze = false;
-                    } else moze = false;
+                    else if ((prostorijaBool && !(t.getProstorija().equals(ter.getProstorija())))) moze = false;
+                    if (ter2.getPocetakVr().isAfter(t.getPocetakVr())
+                            && ter2.getPocetakVr().isBefore(t.getKrajVr()))
+                        moze = false; //????????????????????????????????
+                    else if (ter2.getKrajVr().isAfter(t.getPocetakVr()) &&
+                            ter2.getKrajVr().isBefore(t.getKrajVr())) moze = false;
+                    else if (ter2.getPocetakVr().isBefore(t.getPocetakVr()) &&
+                            ter2.getKrajVr().isAfter(t.getKrajVr())) moze = false;
                 }
                 if (moze) System.out.println(ter2.getDan()+" "+t);
             }

@@ -8,26 +8,17 @@ import java.util.List;
 import java.util.Scanner;
 
 public class Main {
-    public static void main(String[] args) {
+    public static void main(String[] args) throws NoSuchMethodException, InvocationTargetException, InstantiationException, IllegalAccessException, ClassNotFoundException {
+        RasporedHolder r;
+
+        Class<?> impl = Class.forName("org.example.RasporedImplementacija");
+        r = (RasporedHolder) impl.getDeclaredConstructor().newInstance();
+
         System.out.println("Dobrodosli u raspored!");
         Scanner sc = new Scanner(System.in);
         String userInput = "hi";
-        RasporedHolder r;
 
-        try {
-            Class<?> impl = Class.forName("org.example.RasporedImplementacija");
-            r = (RasporedHolder) impl.getDeclaredConstructor().newInstance();
-        } catch (InstantiationException e) {
-            throw new RuntimeException(e);
-        } catch (IllegalAccessException e) {
-            throw new RuntimeException(e);
-        } catch (InvocationTargetException e) {
-            throw new RuntimeException(e);
-        } catch (NoSuchMethodException e) {
-            throw new RuntimeException(e);
-        } catch (ClassNotFoundException e) {
-            throw new RuntimeException(e);
-        }
+
 
         while(!userInput.equalsIgnoreCase("exit")){
             System.out.println("Izaberite opciju:\n1)ucitavanje rasporeda" +

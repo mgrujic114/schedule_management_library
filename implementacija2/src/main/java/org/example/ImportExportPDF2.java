@@ -48,9 +48,14 @@ public class ImportExportPDF2 extends ImportExport{
                 }
 
                 contentStream.moveTextPositionByAmount(0, -20);
-                contentStream.showText("Dan: " + ((Termin2)t).getDan());
-                contentStream.showText(", Pocetak: " + ((Termin2)t).getPocetakVr());
-                contentStream.showText(", Kraj: " + ((Termin2)t).getKrajVr());
+                if (t instanceof Termin2) {
+                    contentStream.showText("Dan: " + ((Termin2) t).getDan());
+                    contentStream.showText(", Pocetak: " + ((Termin2) t).getPocetakVr());
+                    contentStream.showText(", Kraj: " + ((Termin2) t).getKrajVr());
+                } else{
+                    contentStream.showText("Pocetak: " + (t).getPocetak());
+                    contentStream.showText(", Kraj: " + (t).getKraj());
+                }
                 contentStream.showText(", Mesto: " + t.getProstorija());
 
                 y -= 20;

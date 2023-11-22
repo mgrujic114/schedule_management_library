@@ -121,12 +121,20 @@ public class ImportExportCSV2 extends ImportExport{
         CSVPrinter csvPrinter = new CSVPrinter(fileWriter, CSVFormat.DEFAULT);
 
         for (Termin appointment : raspored.getTermini()) {
-            csvPrinter.printRecord(
-                    ((Termin2) appointment).getDan(),
-                    ((Termin2) appointment).getPocetakVr(),
-                    ((Termin2) appointment).getKrajVr(),
-                    appointment.getProstorija()
-            );
+            if (appointment instanceof Termin2) {
+                csvPrinter.printRecord(
+                        ((Termin2) appointment).getDan(),
+                        ((Termin2) appointment).getPocetakVr(),
+                        ((Termin2) appointment).getKrajVr(),
+                        appointment.getProstorija()
+                );
+            } else {
+                csvPrinter.printRecord(
+                        (appointment).getPocetak(),
+                        (appointment).getKraj(),
+                        appointment.getProstorija()
+                );
+            }
         }
 
         csvPrinter.close();

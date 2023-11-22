@@ -184,15 +184,15 @@ public class RasporedImplementacija extends RasporedHolder{
                 for (Termin ter : izabraniTermini) {
                     ter1 = (Termin1) ter;
                     if (danBool && !(ter1.getDan().equals(dan))) moze = false;
-                    else if (prostorijaBool && t.getProstorija().equals(ter.getProstorija())) {
-                        if (ter.getPocetak().isAfter(t.getPocetak())
-                                && ter.getPocetak().isBefore(t.getKraj()))
-                            moze = false; //????????????????????????????????
-                        else if (ter.getKraj().isAfter(t.getPocetak()) &&
-                                ter.getKraj().isBefore(t.getKraj())) moze = false;
-                        else if (ter.getPocetak().isBefore(t.getPocetak()) &&
-                                ter.getKraj().isAfter(t.getKraj())) moze = false;
-                    } else moze = false;
+                    else if (prostorijaBool && !(t.getProstorija().equals(ter.getProstorija())))  moze = false;
+                    if (ter.getPocetak().isAfter(t.getPocetak())
+                            && ter.getPocetak().isBefore(t.getKraj()))
+                        moze = false; //????????????????????????????????
+                    else if (ter.getKraj().isAfter(t.getPocetak()) &&
+                            ter.getKraj().isBefore(t.getKraj())) moze = false;
+                    else if (ter.getPocetak().isBefore(t.getPocetak()) &&
+                            ter.getKraj().isAfter(t.getKraj())) moze = false;
+
                 }
                 if (moze) System.out.println(ter1.getDan()+" "+t);
         }
