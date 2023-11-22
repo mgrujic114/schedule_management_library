@@ -20,10 +20,16 @@ public class Raspored {
     private ImportExport importExport;
     private LocalDate vaziOd;
     private LocalDate vaziDo;
+    private List<LocalDate> izuzetniDani;
     private Raspored(){
     }
    public static Raspored getInstance(){
         return InstaceHolder.instance;
+    }
+
+    public List<LocalDate> getIzuzetniDani() {
+        if (izuzetniDani == null) izuzetniDani = new ArrayList<>();
+        return izuzetniDani;
     }
 
     public List<Termin> getTermini() {

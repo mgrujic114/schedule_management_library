@@ -201,7 +201,6 @@ public class RasporedImplementacija extends RasporedHolder{
             //System.out.println(t);
             Termin2 ter2 = new Termin2();
             for (Termin ter : izabraniTermini) {
-                    //System.out.println(t+" "+ter);
                     ter2 = (Termin2) ter;
                     if (danBool && !(ter2.getDan().equals(t.getDan()))) moze = false;
                     else if ((prostorijaBool && t.getProstorija().equals(ter.getProstorija()))) {

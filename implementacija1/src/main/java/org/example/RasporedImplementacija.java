@@ -46,11 +46,11 @@ public class RasporedImplementacija extends RasporedHolder{
         String izbor  = sc.nextLine();
 
         if (izbor.equalsIgnoreCase("CSV")) raspored.setImportExport(new ImportExportCSV1());
-        else if (izbor.equalsIgnoreCase("JSON")) raspored.setImportExport(new ImportExportPDF1());
+        else if (izbor.equalsIgnoreCase("PDF")) raspored.setImportExport(new ImportExportPDF1());
         System.out.println("Unesite putanju do fajla: ");
         izbor = sc.nextLine();
 
-        raspored.getImportExport().exportAction(izbor.split(",")[0]);
+        raspored.getImportExport().exportAction(izbor);
     }
 
     private LocalDate datum;
