@@ -1,5 +1,6 @@
 package org.example;
 
+import java.time.DayOfWeek;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
@@ -56,6 +57,7 @@ public class RasporedImplementacija extends RasporedHolder{
     private LocalTime vremePocetka;
     private LocalTime vremeKraja;
     private Prostorija p;
+    private DayOfWeek dan;
     @Override
     public void izlistaj() {
         datum = null;
@@ -63,11 +65,15 @@ public class RasporedImplementacija extends RasporedHolder{
 
         vremePocetka = null;
         boolean pocetakBool = false;
+
         vremeKraja = null;
         boolean krajBool = false;
 
         p = null;
         boolean prostorijaBool = false;
+
+        dan = null;
+        boolean danBool = false;
 
         Scanner sc = new Scanner(System.in);
 
@@ -77,6 +83,16 @@ public class RasporedImplementacija extends RasporedHolder{
             DateTimeFormatter formatter = DateTimeFormatter.ofPattern("MM/dd/yyyy");
             datum = LocalDate.parse(argument, formatter);
             datumBool = true;
+        } catch (Exception e) {
+            System.out.println("Error parsing date. Make sure the format is correct.");
+            //return;
+        }
+
+        System.out.println("Unesite dan pretrage na engleskom");
+        argument = sc.nextLine();
+        try {
+            dan = DayOfWeek.valueOf(argument.toUpperCase());
+            danBool = true;
         } catch (Exception e) {
             System.out.println("Error parsing date. Make sure the format is correct.");
             //return;
@@ -111,42 +127,78 @@ public class RasporedImplementacija extends RasporedHolder{
             prostorijaBool = true;
         }
 
-        izlistajZauzeteTermine(datumBool, pocetakBool, krajBool, prostorijaBool);
-        izlistajSlobodneTermine(datumBool, pocetakBool, krajBool, prostorijaBool);
+        //izlistajZauzeteTermine(datumBool, pocetakBool, krajBool, prostorijaBool, danBool);
+        izlistajSlobodneTermine(datumBool, pocetakBool, krajBool, prostorijaBool, danBool);
         //sc.close();
         //System.out.println(izabraniTermini);
     }
 
     private List<Termin> izabraniTermini = new ArrayList<>();
 
-    public void izlistajSlobodneTermine(boolean datumBool, boolean pocetakBool, boolean krajBool, boolean prostorijaBool) {
+    public void izlistajSlobodneTermine(boolean datumBool, boolean pocetakBool, boolean krajBool, boolean prostorijaBool, boolean danBool) {
+        izabraniTermini.clear();
 
-        Termin t = new Termin();
-        boolean moze = true;
-        List<Termin> novi = new ArrayList<>();
-
-        for (LocalTime vreme = vremePocetka; vreme.isBefore(vremeKraja); vreme = vreme.plusHours(1)){
-            t.setPocetak(LocalDateTime.of(datum, vreme));
-            t.setKraj(LocalDateTime.of(datum, vreme.plusHours(1)));
-            t.setProstorija(p);
-            moze = true;
-            //System.out.println(t);
-            for (Termin ter: izabraniTermini){
-                if (t.getProstorija().equals(ter.getProstorija())) {
-                    if (ter.getPocetak().isAfter(t.getPocetak())
-                            && ter.getPocetak().isBefore(t.getKraj())) moze = false; //????????????????????????????????
-                    else if (ter.getKraj().isAfter(t.getPocetak()) &&
-                            ter.getKraj().isBefore(t.getKraj())) moze = false;
-                    else if (ter.getPocetak().isBefore(t.getPocetak()) &&
-                            ter.getKraj().isAfter(t.getKraj())) moze = false;
-                } else moze = false;
-            }
-            if (moze) System.out.println(t);
+        if (!pocetakBool) {
+            vremePocetka = LocalTime.of(9, 0, 0); // raspored working hours?
+        }
+        if (!krajBool){
+            vremeKraja = LocalTime.of(21, 0, 0); // raspored working hours?
         }
 
+        if (!datumBool){
+            datum = LocalDate.now();
+        }
+
+        if (datum == null || raspored.getVaziOd().isAfter(datum) || raspored.getVaziDo().isBefore(datum)) {
+            System.out.println("Datum van opsega vazenja rasporeda");
+            return;
+        }
+
+        boolean moze;
+
+        for (Termin termin: raspored.getTermini()){
+            moze = true;
+            if (! (termin instanceof Termin1)){
+                moze = false;
+            }
+
+            else {
+                Termin1 t1 = (Termin1) termin;
+                if (datumBool && !t1.getDatum().equals(datum)) moze = false;
+                else if (prostorijaBool && !t1.getProstorija().equals(p)) moze = false;
+            }
+            if (moze) izabraniTermini.add(termin);
+        }
+
+        Termin t = new Termin();
+        moze = true;
+        t.setProstorija(p);
+
+        for (LocalTime vreme = vremePocetka; vreme.isBefore(vremeKraja); vreme = vreme.plusHours(1)) {
+            t.setPocetak(LocalDateTime.of(datum, vreme));
+            t.setKraj(LocalDateTime.of(datum, vreme.plusHours(1)));
+
+            moze = true;
+            Termin1 ter1 = new Termin1();
+            //System.out.println(t);
+                for (Termin ter : izabraniTermini) {
+                    ter1 = (Termin1) ter;
+                    if (danBool && !(ter1.getDan().equals(dan))) moze = false;
+                    else if (prostorijaBool && t.getProstorija().equals(ter.getProstorija())) {
+                        if (ter.getPocetak().isAfter(t.getPocetak())
+                                && ter.getPocetak().isBefore(t.getKraj()))
+                            moze = false; //????????????????????????????????
+                        else if (ter.getKraj().isAfter(t.getPocetak()) &&
+                                ter.getKraj().isBefore(t.getKraj())) moze = false;
+                        else if (ter.getPocetak().isBefore(t.getPocetak()) &&
+                                ter.getKraj().isAfter(t.getKraj())) moze = false;
+                    } else moze = false;
+                }
+                if (moze) System.out.println(ter1.getDan()+" "+t);
+        }
     }
 
-    public void izlistajZauzeteTermine(boolean datumBool, boolean pocetakBool, boolean krajBool, boolean prostorijaBool) {
+    public void izlistajZauzeteTermine(boolean datumBool, boolean pocetakBool, boolean krajBool, boolean prostorijaBool, boolean danBool) {
         izabraniTermini.clear();
         if (datum == null || raspored.getVaziOd().isAfter(datum) || raspored.getVaziDo().isBefore(datum)) {
             System.out.println("Datum van opsega vazenja rasporeda");
@@ -170,6 +222,7 @@ public class RasporedImplementacija extends RasporedHolder{
             else {
                 Termin1 t1 = (Termin1) termin;
                 if (datumBool && !t1.getDatum().equals(datum)) moze = false;
+                else if (danBool && !t1.getDan().equals(dan)) moze = false;
                 else if (t1.getPocetakVr().isBefore(vremePocetka)) moze = false;
                 else if (t1.getKrajVr().isAfter(vremeKraja)) moze = false;
                 else if (prostorijaBool && !t1.getProstorija().equals(p)) moze = false;
